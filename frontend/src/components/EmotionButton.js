@@ -8,11 +8,13 @@ class EmotionButton extends React.Component {
 
   handleClick = () => {
     const { selected } = this.state;
+    const { returnFunction, item } = this.props;
     if (selected) {
       this.setState({ selected: false });
     } else {
       this.setState({ selected: true });
     }
+    returnFunction(selected, item.name);
   };
 
   render() {
