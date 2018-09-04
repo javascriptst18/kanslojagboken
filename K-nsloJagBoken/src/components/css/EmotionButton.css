@@ -1,0 +1,56 @@
+button.emotion-list-item {
+  padding: 8px 16px;
+  font-size: 1.2rem;
+  color: #feffff;
+  border: none;
+  border-radius: 5px;
+  margin: 0 16px 16px 0;
+  opacity: 0.7;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+button.emotion-list-item:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+button.emotion-list-item:active,
+button.emotion-list-item:focus {
+  outline: none;
+}
+
+button.emotion-list-item:active,
+button.emotion-list-item.selected {
+  -webkit-box-shadow: inset 0px 0px 5px, rgb(0, 0, 0, 0.6);
+  -moz-box-shadow: inset 0px 0px 5px rgb(0, 0, 0, 0.6);
+  box-shadow: inset 0px 0px 5px rgb(0, 0, 0, 0.6);
+  opacity: 1;
+}
+
+button.emotion-list-item i {
+  transition: font-size 0.3s ease-in-out, margin 0.3s ease-in-out;
+  font-size: 0;
+  margin-left: 0;
+  vertical-align: center;
+}
+
+button.emotion-list-item.selected i {
+  font-size: inherit;
+  margin-left: 8px;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.orange {
+  background-color: orange;
+}
