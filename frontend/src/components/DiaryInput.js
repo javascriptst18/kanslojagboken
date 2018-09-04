@@ -17,15 +17,15 @@ class DiaryInput extends React.Component {
       method: 'POST',
       // credentials: "same-origin",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.state.diary),,
+      body: JSON.stringify(this.state.diary)
     })
       .then((response) => response.json())
-      .then((clear) => {
+      .then((clear => {
         this.setState({ diary: '' });
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
   };
 
   render() {
