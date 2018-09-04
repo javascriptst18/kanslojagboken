@@ -1,0 +1,29 @@
+{
+  "extends": ["airbnb", "prettier", "react-app", "airbnb-base"],
+  "plugins": ["prettier", "import", "react"],
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "no-console": "off",
+    "linebreak-style": "off",
+    "no-param-reassign": [
+      2,
+      {
+        "props": false
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "arrowParens": "always",
+        "semi": true
+      }
+    ]
+  }
+}
