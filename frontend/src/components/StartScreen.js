@@ -38,12 +38,22 @@ class StartScreen extends React.Component {
         color: 'purple',
       },
     ],
-    selected: [],
     user: { name: 'Nathalie' },
     randomHelloPhrase: 'hur mår du idag?',
   };
 
-  handleChecked = () => {};
+  // Function for sorting the list of emotions when an emotion is selected/deselected
+  handleChecked = (selected, incomingName) => {
+    const { emotions } = this.state;
+    if (selected) {
+      const itemToMove = emotions.filter((item) => item.name === incomingName);
+      const arrayWithoutItem = emotions.filter(
+        (item) => item.name !== incomingName
+      );
+      arrayWithoutItem.unshift(itemToMove[0]);
+      this.setState({ emotions: arrayWithoutItem });
+    }
+  };
 
   render() {
     const { emotions, user, randomHelloPhrase } = this.state; // destructuring state
