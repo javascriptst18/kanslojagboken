@@ -31,17 +31,18 @@ MongoClient.connect(uri,{ useNewUrlParser: true }, function(err, client) {
   client.close();
 });
 */
-MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
-  assert.equal(null, err);
-  const collection = client.db("test").collection("devices");
-  collection.find({}).toArray(function(err, docs) {
-    console.log("Found the following records");
-    console.log(docs)
-});
-});
 
-app.get('/', (req, res, err) => {
-  res.sendFile('index.html');
+
+app.get('/data', (req, res, err) => {
+  MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
+    assert.equal(null, err);
+    const collection = client.db("test").collection("devices");
+    collection.find({}).toArray(function(err, docs) {
+      console.log("Found the following records");
+      console.log(docs)
+      res.send(docs);
+  });
+  });
 });
 
 app.listen(PORT);
