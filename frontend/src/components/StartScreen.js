@@ -111,6 +111,10 @@ class StartScreen extends React.Component {
             {emotionsOutput}
           </FlipMove>
         </div>
+        <button type="button" className="add-emotion-button">
+          <i className="fas fa-plus" />
+          <span>Skapa ny</span>
+        </button>
       </div>
     );
   }

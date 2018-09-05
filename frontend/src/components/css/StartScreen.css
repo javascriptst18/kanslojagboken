@@ -23,3 +23,26 @@
 .start-screen .picked-emotions .picked-emotions-inner {
   padding: 16px 0;
 }
+
+.start-screen .add-emotion-button {
+  color: #feffff;
+  background-color: #7daf95;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: 5px solid #feffff;
+  border-radius: 20px;
+  float: right;
+  margin-top: 40px;
+  -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+}
+.start-screen .add-emotion-button i {
+  margin-right: 8px;
+}
+
+.start-screen .add-emotion-button:hover {
+  background-color: #996e8f;
+  cursor: pointer;
+}
