@@ -5,6 +5,7 @@ import './css/StartScreen.css';
 
 class StartScreen extends React.Component {
   state = {
+    // List of pickable emotions, hard coded now, will be fetched from database later
     emotions: [
       {
         name: 'Arg',
@@ -39,24 +40,31 @@ class StartScreen extends React.Component {
         color: 'purple',
       },
     ],
+    // Where we store the emotions that the user picks
     pickedByUser: [],
+    // Users details
     user: { name: 'Nathalie' },
+    // A random hello phrase, fetched from the database later
     randomHelloPhrase: 'hur mår du idag?',
   };
 
-  // Function for sorting the list of emotions when an emotion is selected/deselected
+  // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
   handleChecked = (selected, incomingName) => {
     const { emotions, pickedByUser } = this.state;
+    // If the user has selected something...
     if (selected) {
+      // Filter out what the user has selected from the list of emotions...
       const itemToMove = emotions.filter((item) => item.name === incomingName);
+      // ...remove it from the original array...
       const arrayWithoutItem = emotions.filter(
         (item) => item.name !== incomingName
       );
+      // ...and save the new states
       this.setState({
         emotions: arrayWithoutItem,
         pickedByUser: [...pickedByUser, itemToMove[0]],
       });
-    } else {
+    } else { // if the user has deselected something previously selected, do the same as above but the other way around
       const itemToMove = pickedByUser.filter(
         (item) => item.name === incomingName
       );
@@ -74,6 +82,7 @@ class StartScreen extends React.Component {
     const { emotions, user, randomHelloPhrase, pickedByUser } = this.state; // destructuring state
     let pickedByUserOutput = '';
     if (pickedByUser.length > 0) {
+      // If the user has picked something, add the emotion buttons to the picked container
       pickedByUserOutput = pickedByUser.map((item) => (
         <EmotionButton
           item={item}
@@ -83,6 +92,7 @@ class StartScreen extends React.Component {
         />
       ));
     }
+    // create emotion buttons from all alternatives available in emotions state
     const emotionsOutput = emotions.map((item) => (
       <EmotionButton
         item={item}
