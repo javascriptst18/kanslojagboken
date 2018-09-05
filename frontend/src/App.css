@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: "Champagne & Limousines";
   src: url("./fonts/Champagne___Limousines_Bold.eot?") format("eot"),
     url("./fonts/Champagne___Limousines_Bold.woff") format("woff"),
@@ -17,7 +17,7 @@
     url("./fonts/Keep-Calm.ttf.eot?#iefix") format("embedded-opentype");
   font-weight: normal;
   font-style: normal;
-}
+} */
 
 body {
   background-color: #faf9f9;
@@ -49,8 +49,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Keep-Calm", sans-serif;
+  font-family: "Raleway", sans-serif;
   color: #222;
   line-height: 1.1;
-  font-weight: normal;
+  font-weight: 800;
 }
