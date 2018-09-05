@@ -1,4 +1,5 @@
 import React from 'react';
+import FlipMove from 'react-flip-move';
 import EmotionButton from './EmotionButton';
 import './css/StartScreen.css';
 
@@ -38,15 +39,50 @@ class StartScreen extends React.Component {
         color: 'purple',
       },
     ],
-    selected: [],
+    pickedByUser: [],
     user: { name: 'Nathalie' },
     randomHelloPhrase: 'hur mår du idag?',
   };
 
-  handleChecked = () => {};
+  // Function for sorting the list of emotions when an emotion is selected/deselected
+  handleChecked = (selected, incomingName) => {
+    const { emotions, pickedByUser } = this.state;
+    if (selected) {
+      const itemToMove = emotions.filter((item) => item.name === incomingName);
+      const arrayWithoutItem = emotions.filter(
+        (item) => item.name !== incomingName
+      );
+      this.setState({
+        emotions: arrayWithoutItem,
+        pickedByUser: [...pickedByUser, itemToMove[0]],
+      });
+    } else {
+      const itemToMove = pickedByUser.filter(
+        (item) => item.name === incomingName
+      );
+      const arrayWithoutItem = pickedByUser.filter(
+        (item) => item.name !== incomingName
+      );
+      this.setState({
+        pickedByUser: arrayWithoutItem,
+        emotions: [itemToMove[0], ...emotions],
+      });
+    }
+  };
 
   render() {
-    const { emotions, user, randomHelloPhrase } = this.state; // destructuring state
+    const { emotions, user, randomHelloPhrase, pickedByUser } = this.state; // destructuring state
+    let pickedByUserOutput = '';
+    if (pickedByUser.length > 0) {
+      pickedByUserOutput = pickedByUser.map((item) => (
+        <EmotionButton
+          item={item}
+          key={item.name}
+          returnFunction={this.handleChecked}
+          selected
+        />
+      ));
+    }
     const emotionsOutput = emotions.map((item) => (
       <EmotionButton
         item={item}
@@ -56,12 +92,23 @@ class StartScreen extends React.Component {
     ));
     return (
       <div className="start-screen">
-        <h2>
-          Hej
-          {` ${user.name},`}
-          <span>{randomHelloPhrase}</span>
-        </h2>
-        <div className="startscreen-emotion-list">{emotionsOutput}</div>
+        <div className="picked-emotions">
+          <h2>
+            Hej
+            {` ${user.name},`}
+            <span>{randomHelloPhrase}</span>
+          </h2>
+          {pickedByUserOutput.length > 0 && (
+            <FlipMove duration={500} staggerDurationBy={20}>
+              {pickedByUserOutput}
+            </FlipMove>
+          )}
+        </div>
+        <div className="emotion-list">
+          <FlipMove duration={500} staggerDurationBy={20}>
+            {emotionsOutput}
+          </FlipMove>
+        </div>
       </div>
     );
   }
