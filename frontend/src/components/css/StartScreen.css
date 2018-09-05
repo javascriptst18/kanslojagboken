@@ -26,7 +26,6 @@
 
 .start-screen .add-emotion-button {
   color: #feffff;
-  background-color: #7daf95;
   padding: 12px 20px;
   font-size: 1.2rem;
   font-weight: 700;
@@ -38,11 +37,25 @@
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
 }
+
+.add-emotion-button.add {
+  background-color: #7daf95;
+}
+.add-emotion-button.skip {
+  background-color: #99628f;
+  margin-right: 12px;
+}
+
 .start-screen .add-emotion-button i {
   margin-right: 8px;
 }
 
-.start-screen .add-emotion-button:hover {
-  background-color: #996e8f;
+.start-screen .add-emotion-button.add:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
+.start-screen .add-emotion-button.skip:hover {
+  background-color: #444;
   cursor: pointer;
 }

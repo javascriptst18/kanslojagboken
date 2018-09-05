@@ -95,6 +95,28 @@ class StartScreen extends React.Component {
     }
   };
 
+  saveEmotion = () => {
+    const { newEmotionPreview, pickedByUser } = this.state;
+    this.setState({
+      pickedByUser: [...pickedByUser, newEmotionPreview],
+      newEmotionPreview: {
+        name: '',
+        color: '',
+      },
+      addNewEmotionOpen: false,
+    });
+  };
+
+  skipSaveEmotion = () => {
+    this.setState({
+      newEmotionPreview: {
+        name: '',
+        color: '',
+      },
+      addNewEmotionOpen: false,
+    });
+  };
+
   handlePreview = (text, incomingColor) => {
     this.setState({
       newEmotionPreview: {
@@ -153,7 +175,9 @@ class StartScreen extends React.Component {
               {newEmotionPreview.name !== '' && (
                 <button
                   type="button"
-                  className={`emotion-list-item ${newEmotionPreview.color}`}
+                  className={`emotion-list-item ${
+                    newEmotionPreview.color
+                  } selected`}
                 >
                   {newEmotionPreview.name}
                 </button>
@@ -161,23 +185,44 @@ class StartScreen extends React.Component {
             </div>
           )}
         </div>
+
         {addNewEmotionOpen ? (
-          <AddNewEmotionDialogue previewFunction={this.handlePreview} />
+          <React.Fragment>
+            <AddNewEmotionDialogue previewFunction={this.handlePreview} />
+            <button
+              type="button"
+              className="add-emotion-button add"
+              onClick={this.saveEmotion}
+            >
+              <i className="far fa-save" />
+              <span>Spara</span>
+            </button>
+            <button
+              type="button"
+              className="add-emotion-button skip"
+              onClick={this.skipSaveEmotion}
+            >
+              <i className="fas fa-ban" />
+              <span>Avbryt</span>
+            </button>
+          </React.Fragment>
         ) : (
-          <div className="emotion-list">
-            <FlipMove duration={500} staggerDurationBy={20}>
-              {emotionsOutput}
-            </FlipMove>
-          </div>
+          <React.Fragment>
+            <div className="emotion-list">
+              <FlipMove duration={500} staggerDurationBy={20}>
+                {emotionsOutput}
+              </FlipMove>
+            </div>
+            <button
+              type="button"
+              className="add-emotion-button add"
+              onClick={this.triggerAddNewEmotion}
+            >
+              <i className="fas fa-plus" />
+              <span>Skapa ny</span>
+            </button>
+          </React.Fragment>
         )}
-        <button
-          type="button"
-          className="add-emotion-button"
-          onClick={this.triggerAddNewEmotion}
-        >
-          <i className="fas fa-plus" />
-          <span>Skapa ny</span>
-        </button>
       </div>
     );
   }
