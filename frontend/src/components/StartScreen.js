@@ -46,12 +46,16 @@ class StartScreen extends React.Component {
   handleChecked = (selected, incomingName) => {
     const { emotions } = this.state;
     if (selected) {
-      const itemToMove = emotions.filter((item) => item.name === incomingName);
-      const arrayWithoutItem = emotions.filter(
-        (item) => item.name !== incomingName
-      );
-      arrayWithoutItem.unshift(itemToMove[0]);
-      this.setState({ emotions: arrayWithoutItem });
+      setTimeout(() => {
+        const itemToMove = emotions.filter(
+          (item) => item.name === incomingName
+        );
+        const arrayWithoutItem = emotions.filter(
+          (item) => item.name !== incomingName
+        );
+        arrayWithoutItem.unshift(itemToMove[0]);
+        this.setState({ emotions: arrayWithoutItem });
+      }, 300);
     }
   };
 
