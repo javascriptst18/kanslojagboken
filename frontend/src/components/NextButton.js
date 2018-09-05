@@ -1,11 +1,14 @@
 import React from 'react';
-import { DiaryInput } from './DiaryInput';
+import './css/NextButton.css';
 
 function NextButton(props) {
+  const { onClick } = props;
   return (
     <div>
-      <button type="submit" className="next-button" onClick={props.onClick} />
-      {/* //En cool knapp kanske */}
+      <button className="next-button" type="submit" onClick={onClick}>
+        Klicka här
+        <i className="fa fa-arrow-right next-button-arrow" aria-hidden="true" />
+      </button>
     </div>
   );
 }
