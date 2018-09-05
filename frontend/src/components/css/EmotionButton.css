@@ -4,18 +4,13 @@ button.emotion-list-item {
   color: #feffff;
   border: none;
   border-radius: 5px;
-  margin: 0 16px 16px 0;
+  margin: 16px 16px 0 0;
 }
 
 button.emotion-list-item:hover,
 button.emotion-list-item.selected:hover {
   cursor: pointer;
   opacity: 0.7;
-}
-
-button.emotion-list-item:active,
-button.emotion-list-item:focus {
-  outline: none;
 }
 
 button.emotion-list-item:active,
@@ -36,29 +31,4 @@ button.emotion-list-item i {
 button.emotion-list-item.selected i {
   font-size: inherit;
   margin-left: 8px;
-}
-
-.red {
-  background-color: #b51316;
-}
-.green {
-  background-color: #017f43;
-}
-.blue {
-  background-color: #081b64;
-}
-.orange {
-  background-color: #e2701a;
-}
-.purple {
-  background-color: #6a005a;
-}
-.pink {
-  background-color: #e44097;
-}
-.yellow {
-  background-color: #f9e41c;
-}
-.turquoise {
-  background-color: #008988;
 }
