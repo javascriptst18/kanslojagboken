@@ -1,6 +1,6 @@
 .start-screen h2 {
   font-size: 2.4rem;
-  margin: 0 0 24px 0;
+  margin: 0;
 }
 
 .start-screen h2 span {
@@ -11,11 +11,15 @@
 
 .start-screen .picked-emotions {
   background-color: #feffff;
-  padding: 20px 20px 12px 20px;
+  padding: 20px;
   margin: 40px auto;
   border: 1px solid #ddd;
-  border-radius: 40px;
+  border-radius: 30px;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.start-screen .picked-emotions .picked-emotions-inner {
+  padding: 16px 0;
 }

@@ -99,9 +99,11 @@ class StartScreen extends React.Component {
             <span>{randomHelloPhrase}</span>
           </h2>
           {pickedByUserOutput.length > 0 && (
-            <FlipMove duration={500} staggerDurationBy={20}>
-              {pickedByUserOutput}
-            </FlipMove>
+            <div className="picked-emotions-inner">
+              <FlipMove duration={500} staggerDurationBy={20}>
+                {pickedByUserOutput}
+              </FlipMove>
+            </div>
           )}
         </div>
         <div className="emotion-list">
