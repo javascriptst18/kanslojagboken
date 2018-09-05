@@ -15,10 +15,23 @@ class AddNewEmotionDialogue extends React.Component {
       'yellow',
       'turquoise',
     ],
+    selectedColor: '',
   };
 
   handleChange = (e) => {
-    this.setState({ inputText: e.target.value });
+    const { previewFunction } = this.props;
+    this.setState({ inputText: e.target.value }, () => {
+      const { inputText, selectedColor } = this.state;
+      previewFunction(inputText, selectedColor);
+    });
+  };
+
+  handleCheckbox = (color) => {
+    const { previewFunction } = this.props;
+    this.setState({ selectedColor: color }, () => {
+      const { inputText, selectedColor } = this.state;
+      previewFunction(inputText, selectedColor);
+    });
   };
 
   render() {
@@ -36,7 +49,10 @@ class AddNewEmotionDialogue extends React.Component {
           />
         </label>
         <p className="new-emotion-label">Välj färg:</p>
-        <AddNewEmotionPickColor colors={colors} />
+        <AddNewEmotionPickColor
+          handleCheckbox={this.handleCheckbox}
+          colors={colors}
+        />
       </div>
     );
   }

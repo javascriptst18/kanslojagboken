@@ -7,7 +7,11 @@ class AddNewEmotionPickColor extends React.Component {
   };
 
   handleChange = (e) => {
-    this.setState({ checked: e.target.value });
+    const { handleCheckbox } = this.props;
+    this.setState({ checked: e.target.value }, () => {
+      const { checked } = this.state;
+      handleCheckbox(checked);
+    });
   };
 
   render() {

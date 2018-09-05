@@ -48,6 +48,10 @@ class StartScreen extends React.Component {
     // A random hello phrase, fetched from the database later
     randomHelloPhrase: 'hur mår du idag?',
     addNewEmotionOpen: false,
+    newEmotionPreview: {
+      name: '',
+      color: '',
+    },
   };
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
@@ -91,6 +95,15 @@ class StartScreen extends React.Component {
     }
   };
 
+  handlePreview = (text, incomingColor) => {
+    this.setState({
+      newEmotionPreview: {
+        name: text,
+        color: incomingColor,
+      },
+    });
+  };
+
   render() {
     // destructuring state
     const {
@@ -99,6 +112,7 @@ class StartScreen extends React.Component {
       randomHelloPhrase,
       pickedByUser,
       addNewEmotionOpen,
+      newEmotionPreview,
     } = this.state;
 
     let pickedByUserOutput = '';
@@ -129,16 +143,26 @@ class StartScreen extends React.Component {
             {` ${user.name},`}
             <span>{randomHelloPhrase}</span>
           </h2>
-          {pickedByUserOutput.length > 0 && (
+          {(pickedByUserOutput.length > 0 || newEmotionPreview.name !== '') && (
             <div className="picked-emotions-inner">
-              <FlipMove duration={500} staggerDurationBy={20}>
-                {pickedByUserOutput}
-              </FlipMove>
+              {pickedByUserOutput.length > 0 && (
+                <FlipMove duration={500} staggerDurationBy={20}>
+                  {pickedByUserOutput}
+                </FlipMove>
+              )}
+              {newEmotionPreview.name !== '' && (
+                <button
+                  type="button"
+                  className={`emotion-list-item ${newEmotionPreview.color}`}
+                >
+                  {newEmotionPreview.name}
+                </button>
+              )}
             </div>
           )}
         </div>
         {addNewEmotionOpen ? (
-          <AddNewEmotionDialogue />
+          <AddNewEmotionDialogue previewFunction={this.handlePreview} />
         ) : (
           <div className="emotion-list">
             <FlipMove duration={500} staggerDurationBy={20}>
