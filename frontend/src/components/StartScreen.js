@@ -1,6 +1,7 @@
 import React from 'react';
 import FlipMove from 'react-flip-move';
 import EmotionButton from './EmotionButton';
+import AddNewEmotionDialogue from './AddNewEmotionDialogue';
 import './css/StartScreen.css';
 
 class StartScreen extends React.Component {
@@ -46,6 +47,7 @@ class StartScreen extends React.Component {
     user: { name: 'Nathalie' },
     // A random hello phrase, fetched from the database later
     randomHelloPhrase: 'hur mår du idag?',
+    addNewEmotionOpen: false,
   };
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
@@ -64,7 +66,8 @@ class StartScreen extends React.Component {
         emotions: arrayWithoutItem,
         pickedByUser: [...pickedByUser, itemToMove[0]],
       });
-    } else { // if the user has deselected something previously selected, do the same as above but the other way around
+    } else {
+      // if the user has deselected something previously selected, do the same as above but the other way around
       const itemToMove = pickedByUser.filter(
         (item) => item.name === incomingName
       );
@@ -78,8 +81,26 @@ class StartScreen extends React.Component {
     }
   };
 
+  // Function for opening Add New Emotion dialogue
+  triggerAddNewEmotion = () => {
+    const { addNewEmotionOpen } = this.state;
+    if (addNewEmotionOpen) {
+      this.setState({ addNewEmotionOpen: false });
+    } else {
+      this.setState({ addNewEmotionOpen: true });
+    }
+  };
+
   render() {
-    const { emotions, user, randomHelloPhrase, pickedByUser } = this.state; // destructuring state
+    // destructuring state
+    const {
+      emotions,
+      user,
+      randomHelloPhrase,
+      pickedByUser,
+      addNewEmotionOpen,
+    } = this.state;
+
     let pickedByUserOutput = '';
     if (pickedByUser.length > 0) {
       // If the user has picked something, add the emotion buttons to the picked container
@@ -116,12 +137,20 @@ class StartScreen extends React.Component {
             </div>
           )}
         </div>
-        <div className="emotion-list">
-          <FlipMove duration={500} staggerDurationBy={20}>
-            {emotionsOutput}
-          </FlipMove>
-        </div>
-        <button type="button" className="add-emotion-button">
+        {addNewEmotionOpen ? (
+          <AddNewEmotionDialogue />
+        ) : (
+          <div className="emotion-list">
+            <FlipMove duration={500} staggerDurationBy={20}>
+              {emotionsOutput}
+            </FlipMove>
+          </div>
+        )}
+        <button
+          type="button"
+          className="add-emotion-button"
+          onClick={this.triggerAddNewEmotion}
+        >
           <i className="fas fa-plus" />
           <span>Skapa ny</span>
         </button>
