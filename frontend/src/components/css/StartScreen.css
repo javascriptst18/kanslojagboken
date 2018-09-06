@@ -4,9 +4,11 @@
 }
 
 .start-screen h2 span {
-  color: #888;
-  font-size: 1.6rem;
+  color: #996e8f;
+  font-size: 1.5rem;
   display: block;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
 }
 
 .start-screen .picked-emotions {

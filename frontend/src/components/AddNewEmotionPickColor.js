@@ -26,7 +26,9 @@ class AddNewEmotionPickColor extends React.Component {
           checked={checked === color}
           onChange={this.handleChange}
         />
-        <span className={color} />
+        <span className={color}>
+          {checked === color && <i className="fas fa-check" />}
+        </span>
       </label>
     ));
     return colorOutput;

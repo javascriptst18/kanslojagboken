@@ -49,10 +49,12 @@ class AddNewEmotionDialogue extends React.Component {
           />
         </label>
         <p className="new-emotion-label">Välj färg:</p>
-        <AddNewEmotionPickColor
-          handleCheckbox={this.handleCheckbox}
-          colors={colors}
-        />
+        <div className="select-color-wrapper">
+          <AddNewEmotionPickColor
+            handleCheckbox={this.handleCheckbox}
+            colors={colors}
+          />
+        </div>
       </div>
     );
   }
