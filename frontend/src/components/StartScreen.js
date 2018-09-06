@@ -2,6 +2,8 @@ import React from 'react';
 import FlipMove from 'react-flip-move';
 import EmotionButton from './EmotionButton';
 import AddNewEmotionDialogue from './AddNewEmotionDialogue';
+import FilterCheckbox from './FilterCheckbox';
+import ToggleExpand from './ToggleExpand';
 import './css/StartScreen.css';
 
 class StartScreen extends React.Component {
@@ -52,7 +54,11 @@ class StartScreen extends React.Component {
       name: '',
       color: '',
     },
+    filtersOpen: false,
+    filterByColor: [],
   };
+
+  hiddenFilterRef = React.createRef(); // Create ref to be able to open hidden filter menu
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
   handleChecked = (selected, incomingName) => {
@@ -126,6 +132,18 @@ class StartScreen extends React.Component {
     });
   };
 
+  openFiltersCallback = (element) => {
+    const { filtersOpen } = this.state;
+    if (filtersOpen) {
+      this.setState({ filtersOpen: false });
+    } else {
+      this.setState({ filtersOpen: true });
+      setTimeout(() => {
+        element.style.height = 'auto';
+      }, 500);
+    }
+  };
+
   render() {
     // destructuring state
     const {
@@ -135,6 +153,8 @@ class StartScreen extends React.Component {
       pickedByUser,
       addNewEmotionOpen,
       newEmotionPreview,
+      filtersOpen,
+      filterByColor,
     } = this.state;
 
     let pickedByUserOutput = '';
@@ -157,6 +177,21 @@ class StartScreen extends React.Component {
         returnFunction={this.handleChecked}
       />
     ));
+
+    // set up filters
+    let emotionFiltersOutput = [];
+    if (emotions.length > 0) {
+      emotionFiltersOutput = emotions.map((item) => (
+        <FilterCheckbox
+          filterType="color"
+          key={item.color}
+          identifier={item.color}
+          displayName={item.name}
+          returnFunction={this.handleCheckbox}
+        />
+      ));
+    }
+
     return (
       <div className="start-screen">
         <div className="picked-emotions">
@@ -212,13 +247,46 @@ class StartScreen extends React.Component {
               </button>
               <div className="add-emotion-error">
                 <p>
-                  Du måste skriva in en känsla och välja en färg för att kunna spara
+                  Du måste skriva in en känsla och välja en färg för att kunna
+                  spara
                 </p>
               </div>
             </div>
           </React.Fragment>
         ) : (
           <React.Fragment>
+            {emotionFiltersOutput.length > 0 && (
+              <React.Fragment>
+                <button
+                  type="button"
+                  className="openFilters"
+                  onClick={() => {
+                    ToggleExpand(
+                      this.hiddenFilterRef.current,
+                      filtersOpen,
+                      this.openFiltersCallback
+                    );
+                  }}
+                >
+                  {filtersOpen ? (
+                    <i className="fas fa-caret-down" />
+                  ) : (
+                    <i className="fas fa-caret-right" />
+                  )}
+                  {filterByColor.length > 0 ? (
+                    `Filter (${filterByColor.length})`
+                  ) : (
+                    <React.Fragment>
+                      Filtrera
+                      <i className="fas fa-sliders-h" />
+                    </React.Fragment>
+                  )}
+                </button>
+                <div className="hidden-filters" ref={this.hiddenFilterRef}>
+                  <div className="inner-filters">{emotionFiltersOutput}</div>
+                </div>
+              </React.Fragment>
+            )}
             <div className="emotion-list">
               <FlipMove duration={500} staggerDurationBy={20}>
                 {emotionsOutput}

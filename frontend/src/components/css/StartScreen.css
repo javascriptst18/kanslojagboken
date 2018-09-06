@@ -14,7 +14,7 @@
 .start-screen .picked-emotions {
   background-color: #feffff;
   padding: 20px;
-  margin: 40px auto;
+  margin: 40px auto 30px auto;
   border: 1px solid #ddd;
   border-radius: 30px;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
@@ -103,4 +103,41 @@ button:disabled:hover + .add-emotion-error {
 .start-screen .add-emotion-button.skip:hover {
   background-color: #444;
   cursor: pointer;
+}
+
+button.openFilters {
+  background-color: #7daf95;
+  color: #feffff;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 3px solid #feffff;
+  font-size: 1.2rem;
+  margin: 0px 0 40px 0;
+  -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+button.openFilters:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
+button.openFilters i.fa-caret-down,
+button.openFilters i.fa-caret-right {
+  margin-right: 10px;
+}
+
+button.openFilters i.fa-sliders-h {
+  margin-left: 12px;
+}
+
+.hidden-filters {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.5s ease;
+}
+
+.hidden-filters * {
+  margin: 0;
 }
