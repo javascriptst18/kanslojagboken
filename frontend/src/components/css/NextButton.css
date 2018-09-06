@@ -1,0 +1,41 @@
+.next-button {
+  padding: 8px 16px;
+  font-size: 1.2rem;
+  background-color: #87ff7c;
+  border: none;
+  border-radius: 5px;
+  margin: 0 16px 16px 0;
+  cursor: pointer;
+}
+
+.next-button-arrow {
+  padding: 0px 10px;
+}
+
+.next-button:hover .next-button-arrow {
+  -moz-animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  animation: bounce 1s infinite;
+  padding: 0px 10px;
+}
+
+@-moz-keyframes bounce {
+  50% {
+    -moz-transform: translateX(15px);
+    transform: translateX(15px);
+  }
+}
+@-webkit-keyframes bounce {
+  50% {
+    -webkit-transform: translateX(15px);
+    transform: translateX(15px);
+  }
+}
+@keyframes bounce {
+  50% {
+    -moz-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    -webkit-transform: translateX(15px);
+    transform: translateX(15px);
+  }
+}
