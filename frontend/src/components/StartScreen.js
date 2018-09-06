@@ -189,22 +189,33 @@ class StartScreen extends React.Component {
         {addNewEmotionOpen ? (
           <React.Fragment>
             <AddNewEmotionDialogue previewFunction={this.handlePreview} />
-            <button
-              type="button"
-              className="add-emotion-button add"
-              onClick={this.saveEmotion}
-            >
-              <i className="far fa-save" />
-              <span>Spara</span>
-            </button>
-            <button
-              type="button"
-              className="add-emotion-button skip"
-              onClick={this.skipSaveEmotion}
-            >
-              <i className="fas fa-ban" />
-              <span>Avbryt</span>
-            </button>
+            <div className="add-emotion-button-wrapper">
+              <button
+                type="button"
+                className="add-emotion-button skip"
+                onClick={this.skipSaveEmotion}
+              >
+                <i className="fas fa-ban" />
+                <span>Avbryt</span>
+              </button>
+              <button
+                type="button"
+                className="add-emotion-button add"
+                onClick={this.saveEmotion}
+                disabled={
+                  newEmotionPreview.name === '' ||
+                  newEmotionPreview.color === ''
+                }
+              >
+                <i className="far fa-save" />
+                <span>Spara</span>
+              </button>
+              <div className="add-emotion-error">
+                <p>
+                  Du måste skriva in en känsla och välja en färg för att kunna spara
+                </p>
+              </div>
+            </div>
           </React.Fragment>
         ) : (
           <React.Fragment>
@@ -213,14 +224,16 @@ class StartScreen extends React.Component {
                 {emotionsOutput}
               </FlipMove>
             </div>
-            <button
-              type="button"
-              className="add-emotion-button add"
-              onClick={this.triggerAddNewEmotion}
-            >
-              <i className="fas fa-plus" />
-              <span>Skapa ny</span>
-            </button>
+            <div className="add-emotion-button-wrapper">
+              <button
+                type="button"
+                className="add-emotion-button trigger-add"
+                onClick={this.triggerAddNewEmotion}
+              >
+                <i className="fas fa-plus" />
+                <span>Skapa ny</span>
+              </button>
+            </div>
           </React.Fragment>
         )}
       </div>
