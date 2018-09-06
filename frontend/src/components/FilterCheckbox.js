@@ -1,37 +1,40 @@
 import React from 'react';
+import './css/FilterCheckbox.css';
 
 class FilterCheckbox extends React.Component {
   state = {
     checked: false,
   };
 
-  handleChange = (e) => {
+  handleChange = () => {
     const { checked } = this.state;
-    const { returnFunction, identifier, filterType } = this.props;
+    const { returnFunction, color } = this.props;
     if (checked) {
       this.setState({ checked: false }, () => {
-        returnFunction(false, identifier, filterType);
+        returnFunction(false, color);
       });
     } else {
       this.setState({ checked: true }, () => {
-        returnFunction(true, identifier, filterType);
+        returnFunction(true, color);
       });
     }
   };
 
   render() {
-    const { identifier, displayName } = this.props;
+    const { color } = this.props;
     const { checked } = this.state;
     return (
-      <label className="filter-checkbox-label" htmlFor={identifier}>
+      <label className="filter-checkbox-label" htmlFor={color}>
         <input
-          name={identifier}
-          id={identifier}
+          name={color}
+          id={color}
           onChange={this.handleChange}
           type="checkbox"
           checked={checked}
         />
-        {displayName}
+        <span className={color}>
+          {checked && <i className="fas fa-check" />}
+        </span>
       </label>
     );
   }

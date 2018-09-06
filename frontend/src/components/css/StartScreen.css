@@ -26,6 +26,10 @@
   padding: 16px 0;
 }
 
+.emotion-list {
+  margin-top: 40px;
+}
+
 .start-screen .add-emotion-button-wrapper {
   display: flex;
   justify-content: right;
@@ -112,7 +116,7 @@ button.openFilters {
   border-radius: 10px;
   border: 3px solid #feffff;
   font-size: 1.2rem;
-  margin: 0px 0 40px 0;
+  margin: 0;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
@@ -138,6 +142,17 @@ button.openFilters i.fa-sliders-h {
   transition: height 0.5s ease;
 }
 
-.hidden-filters * {
-  margin: 0;
+.inner-filters * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.inner-filters {
+  padding: 20px;
+  overflow: hidden;
+}
+
+.inner-filters p {
+  font-size: 1.2rem;
+  padding-bottom: 12px;
 }

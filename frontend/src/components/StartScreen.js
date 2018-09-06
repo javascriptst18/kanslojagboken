@@ -132,6 +132,18 @@ class StartScreen extends React.Component {
     });
   };
 
+  handleCheckbox = (checked, incomingColor) => {
+    const { filterByColor } = this.state;
+    if (checked) {
+      this.setState({ filterByColor: [...filterByColor, incomingColor] });
+    } else {
+      const removeFromFilter = filterByColor.filter(
+        (item) => item !== incomingColor
+      );
+      this.setState({ filterByColor: removeFromFilter });
+    }
+  };
+
   openFiltersCallback = (element) => {
     const { filtersOpen } = this.state;
     if (filtersOpen) {
@@ -183,10 +195,8 @@ class StartScreen extends React.Component {
     if (emotions.length > 0) {
       emotionFiltersOutput = emotions.map((item) => (
         <FilterCheckbox
-          filterType="color"
           key={item.color}
-          identifier={item.color}
-          displayName={item.name}
+          color={item.color}
           returnFunction={this.handleCheckbox}
         />
       ));
@@ -283,7 +293,12 @@ class StartScreen extends React.Component {
                   )}
                 </button>
                 <div className="hidden-filters" ref={this.hiddenFilterRef}>
-                  <div className="inner-filters">{emotionFiltersOutput}</div>
+                  <div className="inner-filters">
+                    <p>Filtrera efter färg</p>
+                    <div className="filter-color-wrapper">
+                      {emotionFiltersOutput}
+                    </div>
+                  </div>
                 </div>
               </React.Fragment>
             )}
