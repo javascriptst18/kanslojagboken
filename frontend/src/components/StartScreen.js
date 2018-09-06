@@ -95,6 +95,28 @@ class StartScreen extends React.Component {
     }
   };
 
+  saveEmotion = () => {
+    const { newEmotionPreview, pickedByUser } = this.state;
+    this.setState({
+      pickedByUser: [...pickedByUser, newEmotionPreview],
+      newEmotionPreview: {
+        name: '',
+        color: '',
+      },
+      addNewEmotionOpen: false,
+    });
+  };
+
+  skipSaveEmotion = () => {
+    this.setState({
+      newEmotionPreview: {
+        name: '',
+        color: '',
+      },
+      addNewEmotionOpen: false,
+    });
+  };
+
   handlePreview = (text, incomingColor) => {
     this.setState({
       newEmotionPreview: {
@@ -153,7 +175,9 @@ class StartScreen extends React.Component {
               {newEmotionPreview.name !== '' && (
                 <button
                   type="button"
-                  className={`emotion-list-item ${newEmotionPreview.color}`}
+                  className={`emotion-list-item ${
+                    newEmotionPreview.color
+                  } selected`}
                 >
                   {newEmotionPreview.name}
                 </button>
@@ -161,23 +185,57 @@ class StartScreen extends React.Component {
             </div>
           )}
         </div>
+
         {addNewEmotionOpen ? (
-          <AddNewEmotionDialogue previewFunction={this.handlePreview} />
+          <React.Fragment>
+            <AddNewEmotionDialogue previewFunction={this.handlePreview} />
+            <div className="add-emotion-button-wrapper">
+              <button
+                type="button"
+                className="add-emotion-button skip"
+                onClick={this.skipSaveEmotion}
+              >
+                <i className="fas fa-ban" />
+                <span>Avbryt</span>
+              </button>
+              <button
+                type="button"
+                className="add-emotion-button add"
+                onClick={this.saveEmotion}
+                disabled={
+                  newEmotionPreview.name === '' ||
+                  newEmotionPreview.color === ''
+                }
+              >
+                <i className="far fa-save" />
+                <span>Spara</span>
+              </button>
+              <div className="add-emotion-error">
+                <p>
+                  Du måste skriva in en känsla och välja en färg för att kunna spara
+                </p>
+              </div>
+            </div>
+          </React.Fragment>
         ) : (
-          <div className="emotion-list">
-            <FlipMove duration={500} staggerDurationBy={20}>
-              {emotionsOutput}
-            </FlipMove>
-          </div>
+          <React.Fragment>
+            <div className="emotion-list">
+              <FlipMove duration={500} staggerDurationBy={20}>
+                {emotionsOutput}
+              </FlipMove>
+            </div>
+            <div className="add-emotion-button-wrapper">
+              <button
+                type="button"
+                className="add-emotion-button trigger-add"
+                onClick={this.triggerAddNewEmotion}
+              >
+                <i className="fas fa-plus" />
+                <span>Skapa ny</span>
+              </button>
+            </div>
+          </React.Fragment>
         )}
-        <button
-          type="button"
-          className="add-emotion-button"
-          onClick={this.triggerAddNewEmotion}
-        >
-          <i className="fas fa-plus" />
-          <span>Skapa ny</span>
-        </button>
       </div>
     );
   }

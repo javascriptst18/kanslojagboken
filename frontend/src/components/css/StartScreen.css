@@ -24,25 +24,81 @@
   padding: 16px 0;
 }
 
+.start-screen .add-emotion-button-wrapper {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  flex-wrap: wrap;
+}
+
 .start-screen .add-emotion-button {
   color: #feffff;
-  background-color: #7daf95;
   padding: 12px 20px;
   font-size: 1.2rem;
   font-weight: 700;
   border: 5px solid #feffff;
   border-radius: 20px;
-  float: right;
   margin-top: 40px;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
 }
+
+.add-emotion-button.add {
+  background-color: #7daf95;
+  margin-left: 12px;
+}
+
+.add-emotion-button.trigger-add {
+  background-color: #7daf95;
+  margin-left: auto;
+}
+
+.add-emotion-button.skip {
+  background-color: #99628f;
+  margin-left: auto;
+}
+
+.add-emotion-button:disabled {
+  background-color: #ccc !important;
+}
+.add-emotion-button:disabled:hover {
+  cursor: not-allowed !important;
+}
+
+.add-emotion-error {
+  display: none;
+  flex: 0 0 100%;
+  padding-top: 12px;
+}
+
+.add-emotion-error p {
+  font-size: 0.9rem;
+  color: #feffff;
+  margin: 0;
+  padding: 2px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 200px;
+  float: right;
+  background-color: rgb(0, 0, 0, 0.7);
+}
+
+button:disabled:hover + .add-emotion-error {
+  display: block;
+}
+
 .start-screen .add-emotion-button i {
   margin-right: 8px;
 }
 
-.start-screen .add-emotion-button:hover {
-  background-color: #996e8f;
+.start-screen .add-emotion-button.add:hover,
+.start-screen .add-emotion-button.trigger-add:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
+.start-screen .add-emotion-button.skip:hover {
+  background-color: #444;
   cursor: pointer;
 }
