@@ -1,5 +1,4 @@
 import React from 'react';
-import './css/NextButton.css';
 
 function NextButton(props) {
   const { onClick } = props;
