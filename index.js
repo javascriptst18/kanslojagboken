@@ -18,20 +18,16 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cors());
 
-//TEST DATA
+/* 
+        Documentation
 
-let insert = { 
-      "Day1": [
-          "Fuck!!!!!!!",
-          "Besviken",
-          "Frustrerad"
-      ],
-      "Day2": [
-          "Glad",
-          "Exhalterad"
-      ]
-  
-};
+        GET /userdata with req.query.id as userid, gets all data for that user
+        GET /userdatabydate TODO
+        POST /newuser with req.body.data as first emotion array
+        PATCH /updateuserdata (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
+        POST /updateuserdata (for new data for that day) req.body.data as emotion array req.body.id as userid
+
+*/
 
 
 // GET userdata req.query.id  
@@ -40,7 +36,7 @@ app.get('/userdata', (req, res, err) => {
     assert.equal(null, err);
     const collection = client.db("users").collection("userdata");
     collection.find(ObjectId(req.query.id)).toArray(function(err, result){
-      res.send(result);
+      res.send(JSON.stringify(result));
     }) 
   client.close();
   });
@@ -48,14 +44,32 @@ app.get('/userdata', (req, res, err) => {
 });
 
 
-app.patch('/newuserdata', async (req, res, err) => {
-  let incoming = await JSON.parse(req.body.data);
+// GET userdata req.query.id by date
+app.get('/userdatabydate', (req, res, err) => {
+  MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
+    assert.equal(null, err);
+    const collection = client.db("users").collection("userdata");
+    collection.find(ObjectId(req.query.id)).toArray(function(err, result){
+      res.send(JSON.stringify(result));
+    }) 
+  client.close();
+  });
+  
+});
+
+app.post('/newuser', async (req, res, err) => {
+  
+  let incoming = await JSON.parse(JSON.stringify(req.body.data));
+  console.log(incoming);
+  let date = await new Date();
+  date=date.toString().split(" ").join("").substr(0,12);
+  let newUser = {emotionData:[{date:date,emotions:[incoming]}],colors:{0:[],1:[],2:[],3:[],4:[],5:[],6:[],7:[]}}
 
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
     assert.equal(null, err);
     const collection = client.db("users").collection("userdata") 
-    collection.insert(incoming, function(err, result){
-      res.send(result);
+    collection.insert(newUser, function(err, result){
+      res.send(JSON.stringify(result));
     })
   
   client.close();
@@ -82,7 +96,7 @@ date=date.split(" ").join("").substr(0,12);
         if(!result["lastErrorObject"]["updatedExisting"] || err){
           res.send("error");
         }else{
-          res.send(result);
+          res.send(JSON.stringify(result));
         }
         
       })
@@ -106,7 +120,7 @@ date=date.split(" ").join("").substr(0,12);
       const collection = client.db("users").collection("userdata");
       collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{$push:{"emotionData":objEmotionData }},{returnOriginal: false}, function(err, result){
          
-          res.send(result);
+          res.send(JSON.stringify(result));
         })
       
       })
