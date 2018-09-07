@@ -1,0 +1,15 @@
+.splash-screen {
+  height: 100vh;
+  background-color: #faf9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.splash-screen img {
+  width: auto;
+  max-height: 90%;
+  display: block;
+  margin: 0 auto;
+}

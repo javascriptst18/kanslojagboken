@@ -2,6 +2,7 @@ import React from 'react';
 import FlipMove from 'react-flip-move';
 import EmotionButton from './EmotionButton';
 import AddNewEmotionDialogue from './AddNewEmotionDialogue';
+import EmotionFilters from './EmotionFilters';
 import './css/StartScreen.css';
 
 class StartScreen extends React.Component {
@@ -41,6 +42,16 @@ class StartScreen extends React.Component {
         color: 'purple',
       },
     ],
+    colors: [
+      'red',
+      'green',
+      'blue',
+      'orange',
+      'yellow',
+      'pink',
+      'turquoise',
+      'purple',
+    ],
     // Where we store the emotions that the user picks
     pickedByUser: [],
     // Users details
@@ -52,6 +63,8 @@ class StartScreen extends React.Component {
       name: '',
       color: '',
     },
+    filtersOpen: false,
+    filterByColor: [],
   };
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
@@ -104,6 +117,7 @@ class StartScreen extends React.Component {
         color: '',
       },
       addNewEmotionOpen: false,
+      filtersOpen: false,
     });
   };
 
@@ -114,6 +128,7 @@ class StartScreen extends React.Component {
         color: '',
       },
       addNewEmotionOpen: false,
+      filtersOpen: false,
     });
   };
 
@@ -126,15 +141,39 @@ class StartScreen extends React.Component {
     });
   };
 
+  handleCheckbox = (checked, incomingColor) => {
+    const { filterByColor } = this.state;
+    if (checked) {
+      this.setState({ filterByColor: [...filterByColor, incomingColor] });
+    } else {
+      const removeFromFilter = filterByColor.filter(
+        (item) => item !== incomingColor
+      );
+      this.setState({ filterByColor: removeFromFilter });
+    }
+  };
+
+  openFiltersCallback = (element) => {
+    const { filtersOpen } = this.state;
+    if (filtersOpen) {
+      this.setState({ filtersOpen: false });
+    } else {
+      this.setState({ filtersOpen: true });
+    }
+  };
+
   render() {
     // destructuring state
     const {
       emotions,
+      colors,
       user,
       randomHelloPhrase,
       pickedByUser,
       addNewEmotionOpen,
       newEmotionPreview,
+      filtersOpen,
+      filterByColor,
     } = this.state;
 
     let pickedByUserOutput = '';
@@ -150,13 +189,21 @@ class StartScreen extends React.Component {
       ));
     }
     // create emotion buttons from all alternatives available in emotions state
-    const emotionsOutput = emotions.map((item) => (
+
+    let emotionsToShow = emotions;
+    if (filterByColor.length > 0) {
+      emotionsToShow = emotions.filter((item) =>
+        filterByColor.includes(item.color)
+      );
+    }
+    const emotionsOutput = emotionsToShow.map((item) => (
       <EmotionButton
         item={item}
         key={item.name}
         returnFunction={this.handleChecked}
       />
     ));
+
     return (
       <div className="start-screen">
         <div className="picked-emotions">
@@ -212,13 +259,22 @@ class StartScreen extends React.Component {
               </button>
               <div className="add-emotion-error">
                 <p>
-                  Du måste skriva in en känsla och välja en färg för att kunna spara
+                  Du måste skriva in en känsla och välja en färg för att kunna
+                  spara
                 </p>
               </div>
             </div>
           </React.Fragment>
         ) : (
           <React.Fragment>
+            <EmotionFilters
+              colors={colors}
+              filterByColor={filterByColor}
+              handleCheckbox={this.handleCheckbox}
+              filtersOpen={filtersOpen}
+              openFiltersCallback={this.openFiltersCallback}
+            />
+
             <div className="emotion-list">
               <FlipMove duration={500} staggerDurationBy={20}>
                 {emotionsOutput}
