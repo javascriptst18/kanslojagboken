@@ -6,6 +6,13 @@ class FilterCheckbox extends React.Component {
     checked: false,
   };
 
+  componentDidMount() {
+    const { checked } = this.props;
+    if (checked) {
+      this.setState({ checked: true });
+    }
+  }
+
   handleChange = () => {
     const { checked } = this.state;
     const { returnFunction, color } = this.props;

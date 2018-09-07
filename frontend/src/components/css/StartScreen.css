@@ -27,7 +27,7 @@
 }
 
 .emotion-list {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .start-screen .add-emotion-button-wrapper {
@@ -116,7 +116,7 @@ button.openFilters {
   border-radius: 10px;
   border: 3px solid #feffff;
   font-size: 1.2rem;
-  margin: 0;
+  margin: 0 0 20px 0;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
@@ -137,9 +137,30 @@ button.openFilters i.fa-sliders-h {
 }
 
 .hidden-filters {
+  -webkit-transform: scaleY(0);
+  -o-transform: scaleY(0);
+  -ms-transform: scaleY(0);
+  transform: scaleY(0);
+
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+
+  -webkit-transition: -webkit-transform 0.3 ease, height 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3 ease, height 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3 ease, height 0.3s ease;
+  transition: transform 0.3s ease, height 0.3s ease;
   height: 0;
   overflow: hidden;
-  transition: height 0.5s ease;
+}
+
+.hidden-filters.visible {
+  -webkit-transform: scaleY(1);
+  -o-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
 }
 
 .inner-filters * {
@@ -149,10 +170,13 @@ button.openFilters i.fa-sliders-h {
 
 .inner-filters {
   padding: 20px;
-  overflow: hidden;
+  border-bottom: dashed 1px #bbb;
+  border-top: dashed 1px #bbb;
 }
 
 .inner-filters p {
   font-size: 1.2rem;
   padding-bottom: 12px;
+  flex: 0 0 100%;
+  line-height: 1;
 }

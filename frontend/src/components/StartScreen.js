@@ -110,6 +110,7 @@ class StartScreen extends React.Component {
         color: '',
       },
       addNewEmotionOpen: false,
+      filtersOpen: false,
     });
   };
 
@@ -120,6 +121,7 @@ class StartScreen extends React.Component {
         color: '',
       },
       addNewEmotionOpen: false,
+      filtersOpen: false,
     });
   };
 
@@ -150,9 +152,6 @@ class StartScreen extends React.Component {
       this.setState({ filtersOpen: false });
     } else {
       this.setState({ filtersOpen: true });
-      setTimeout(() => {
-        element.style.height = 'auto';
-      }, 500);
     }
   };
 
@@ -193,13 +192,20 @@ class StartScreen extends React.Component {
     // set up filters
     let emotionFiltersOutput = [];
     if (emotions.length > 0) {
-      emotionFiltersOutput = emotions.map((item) => (
-        <FilterCheckbox
-          key={item.color}
-          color={item.color}
-          returnFunction={this.handleCheckbox}
-        />
-      ));
+      emotionFiltersOutput = emotions.map((item) => {
+        let checked = false;
+        if (filterByColor.includes(item.color)) {
+          checked = true;
+        }
+        return (
+          <FilterCheckbox
+            key={item.color}
+            color={item.color}
+            returnFunction={this.handleCheckbox}
+            checked={checked}
+          />
+        );
+      });
     }
 
     return (
@@ -292,10 +298,13 @@ class StartScreen extends React.Component {
                     </React.Fragment>
                   )}
                 </button>
-                <div className="hidden-filters" ref={this.hiddenFilterRef}>
+                <div
+                  className={`hidden-filters${filtersOpen ? ' visible' : ''}`}
+                  ref={this.hiddenFilterRef}
+                >
                   <div className="inner-filters">
-                    <p>Filtrera efter färg</p>
                     <div className="filter-color-wrapper">
+                      <p>Filtrera efter färg:</p>
                       {emotionFiltersOutput}
                     </div>
                   </div>
