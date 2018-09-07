@@ -3,6 +3,9 @@ const cors = require('cors');
 const assert = require('assert');
 const ObjectId = require('mongodb').ObjectID;
 const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+
+
 
 
 const app = express();
@@ -14,7 +17,8 @@ const password = "Xqj2jdzT1sRfGyEY";
 const uri = `mongodb+srv://dev_academy:${password}@kanslodagbok-g1obv.mongodb.net/users?retryWrites=true`
 
 app.use(express.static('kanslojagboken/public'));
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(cors());
 
@@ -31,13 +35,12 @@ app.use(cors());
 
 
 // GET userdata req.query.id  
-app.get('/userdata', (req, res, err) => {
+app.get('/userdata', async (req, res, err) => {
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
     assert.equal(null, err);
     const collection = client.db("users").collection("userdata");
-    collection.find(ObjectId(req.query.id)).toArray(function(err, result){
-      res.send(JSON.stringify(result));
-    }) 
+    let result = await collection.findOne(ObjectId(req.query.id))
+    res.send(result);
   client.close();
   });
   
@@ -82,38 +85,39 @@ app.post('/newuser', async (req, res, err) => {
 
 
 app.patch('/updateuserdata', async (req, res, err) => {
-  let incoming = await JSON.parse(req.body.data);
+  
+  console.log(req.body.data);
   let date = await new Date();
 
 date=date.toString()
 date=date.split(" ").join("").substr(0,12);
+console.log(date);
 
 
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
     assert.equal(null, err);
     const collection = client.db("users").collection("userdata");
-    collection.findOneAndUpdate({$and:[{"_id": ObjectId(req.body.id)}, {"emotionData.date":date}]},{$set:{"emotionData.$.emotions":incoming }},{returnOriginal: false}, function(err, result){
-        if(!result["lastErrorObject"]["updatedExisting"] || err){
-          res.send("error");
-        }else{
-          res.send(JSON.stringify(result));
-        }
-        
-      })
-    
+    collection.findOneAndUpdate({$and:[{"_id": ObjectId(req.body.id)}, {"emotionData.date":date}]},{$set:{"emotionData.$.emotions":req.body.data }},{returnOriginal: false},function(err,result){
+      console.log(result);
+      if(result.lastErrorObject.updatedExisting){
+        res.send(JSON.stringify(result));
+      }else{
+        res.send(JSON.stringify("error"));
+      }
     })
   
-  client.close();
+    
+      client.close();
+    })
+  
   });
 
   app.post('/updateuserdata', async (req, res, err) => {
-    let incoming = await JSON.parse(req.body.data);
     let date = await new Date();
   
   date=date.toString()
   date=date.split(" ").join("").substr(0,12);
-  date="FriSep062018";
-  objEmotionData = {date:date,emotions:incoming}
+  objEmotionData = {date:date,emotions:req.body.data}
   
     MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
       assert.equal(null, err);
@@ -122,32 +126,11 @@ date=date.split(" ").join("").substr(0,12);
          
           res.send(JSON.stringify(result));
         })
-      
+        client.close();
       })
     
-    client.close();
-    });
     
-  
-
-
-
-//
-// PATCH to /update with req.body.id
-app.patch('/update', (req, res, err) => {
-  MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
-    assert.equal(null, err);
-    const collection = client.db("users").collection("userdata");
-    collection.find(ObjectId(req.body.id)).toArray(function(err, docs) {
-        console.log("Found the following records");
-        console.log(docs)
-        res.send(docs);
-    
-  
     });
-    client.close();
-  });
-});
 
 
 
