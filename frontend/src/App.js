@@ -1,10 +1,20 @@
 import React from 'react';
+import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import 'normalize.css';
 import './App.css';
+import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 
 class App extends React.Component {
+  state = {
+    splash: true,
+  };
+
   async componentDidMount() {
+    setTimeout(() => {
+      this.setState({ splash: false });
+    }, 500);
+
     let data = await fetch('/userdata?id=5b912c3f272a825d807bd24f');
     data = await data.json();
     console.log(data);
@@ -39,10 +49,21 @@ class App extends React.Component {
   };
 
   render() {
+    const { splash } = this.state;
     return (
-      <div className="App">
-        <StartScreen />
-      </div>
+      <ReactCSSTransitionReplace
+        transitionName="cross-fade"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}
+      >
+        {splash ? (
+          <SplashScreen key="splashScreen" />
+        ) : (
+          <div className="App">
+            <StartScreen key="startScreen" />
+          </div>
+        )}
+      </ReactCSSTransitionReplace>
     );
   }
 }
