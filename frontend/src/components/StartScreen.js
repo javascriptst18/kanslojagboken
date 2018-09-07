@@ -43,6 +43,16 @@ class StartScreen extends React.Component {
         color: 'purple',
       },
     ],
+    colors: [
+      'red',
+      'green',
+      'blue',
+      'orange',
+      'yellow',
+      'pink',
+      'turquoise',
+      'purple',
+    ],
     // Where we store the emotions that the user picks
     pickedByUser: [],
     // Users details
@@ -159,6 +169,7 @@ class StartScreen extends React.Component {
     // destructuring state
     const {
       emotions,
+      colors,
       user,
       randomHelloPhrase,
       pickedByUser,
@@ -181,7 +192,14 @@ class StartScreen extends React.Component {
       ));
     }
     // create emotion buttons from all alternatives available in emotions state
-    const emotionsOutput = emotions.map((item) => (
+
+    let emotionsToShow = emotions;
+    if (filterByColor.length > 0) {
+      emotionsToShow = emotions.filter((item) =>
+        filterByColor.includes(item.color)
+      );
+    }
+    const emotionsOutput = emotionsToShow.map((item) => (
       <EmotionButton
         item={item}
         key={item.name}
@@ -191,16 +209,16 @@ class StartScreen extends React.Component {
 
     // set up filters
     let emotionFiltersOutput = [];
-    if (emotions.length > 0) {
-      emotionFiltersOutput = emotions.map((item) => {
+    if (colors.length > 0) {
+      emotionFiltersOutput = colors.map((item) => {
         let checked = false;
-        if (filterByColor.includes(item.color)) {
+        if (filterByColor.includes(item)) {
           checked = true;
         }
         return (
           <FilterCheckbox
-            key={item.color}
-            color={item.color}
+            key={item}
+            color={item}
             returnFunction={this.handleCheckbox}
             checked={checked}
           />
