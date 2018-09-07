@@ -5,10 +5,10 @@ import StartScreen from './components/StartScreen';
 
 class App extends React.Component {
   async componentDidMount() {
-    /* let data = await fetch('/userdata?id=5b912c3f272a825d807bd24f');
+    let data = await fetch('/userdata?id=5b912c3f272a825d807bd24f');
     data = await data.json();
     console.log(data);
-*/
+
     let data2 = await this.patchFetchData('/updateuserdata', {
       id: '5b912c3f272a825d807bd24f',
       data: ['hello', 'yes', 'new', 'more'],
@@ -17,7 +17,7 @@ class App extends React.Component {
     console.log(data2);
 
     let data4 = await fetch(
-      '/userdatabydate?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180903'
+      '/userdatabydate?id=5b912c3f272a825d807bd24f&datestart=20180722&dateend=20180903'
     );
     data4 = await data4.json();
     console.log(data4);
@@ -26,7 +26,7 @@ class App extends React.Component {
   patchFetchData = async (url, post) => {
     try {
       return fetch(url, {
-        method: 'PATCH',
+        method: 'POST',
 
         body: JSON.stringify(post),
         headers: {

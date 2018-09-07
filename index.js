@@ -65,14 +65,12 @@ app.get('/userdatabydate', (req, res, err) => {
     const collection = client.db("users").collection("userdata");
     let result = await collection.findOne(ObjectId(req.query.id))
     result = result.emotionData;
-    console.log(result);
     result = result.filter((date)=>{
       if(date.date >= start && date.date <= end){
         return date;
       }
       
     })
-    console.log(result)
     result = result.reduce((accumulatedArray,emotion)=>{
       accumulatedArray = accumulatedArray.concat(emotion["emotions"]);
       return accumulatedArray;
@@ -140,7 +138,8 @@ app.patch('/updateuserdata', async (req, res, err) => {
 
   app.post('/updateuserdata', async (req, res, err) => {
     let incoming = req.body.data;
-    let date = await new Date().setHours(0,0,0,0)
+    let date = await new Date().setHours(0,0,0,0);
+    console.log(date);
     let objEmotionData = {date:date,emotions:incoming}
   
     MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
