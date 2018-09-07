@@ -1,5 +1,4 @@
 body {
-  background-color: #faf9f9;
   line-height: 1.625;
   color: #444;
   font-size: 1rem;
@@ -76,7 +75,7 @@ button:active {
 }
 .cross-fade-leave.cross-fade-leave-active {
   opacity: 0;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.6s ease-in;
 }
 
 .cross-fade-enter {
@@ -84,9 +83,9 @@ button:active {
 }
 .cross-fade-enter.cross-fade-enter-active {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.6s ease-in;
 }
 
 .cross-fade-height {
-  transition: height 0.5s ease-in-out;
+  transition: height 0.6s ease-in-out;
 }

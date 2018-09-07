@@ -14,17 +14,6 @@ class App extends React.Component {
     setTimeout(() => {
       this.setState({ splash: false });
     }, 500);
-
-    let data = await fetch('/userdata?id=5b912c3f272a825d807bd24f');
-    data = await data.json();
-    console.log(data);
-
-    let data2 = await this.patchFetchData('/updateuserdata', {
-      id: '5b912c3f272a825d807bd24f',
-      data: ['hello', 'yes', 'new'],
-    });
-    data2 = await data2.json();
-    console.log(data2);
   }
 
   patchFetchData = async (url, post) => {
@@ -47,8 +36,8 @@ class App extends React.Component {
     return (
       <ReactCSSTransitionReplace
         transitionName="cross-fade"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
+        transitionEnterTimeout={600}
+        transitionLeaveTimeout={600}
       >
         {splash ? (
           <SplashScreen key="splashScreen" />
