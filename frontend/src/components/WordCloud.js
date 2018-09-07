@@ -5,7 +5,7 @@ import WordCloud from 'react-d3-cloud';
 class WordCloud2 extends React.Component {
   state = {
     words: [],
-    emotions: [],
+    emotions: {},
   };
 
   componentDidMount() {
@@ -19,26 +19,38 @@ class WordCloud2 extends React.Component {
       // credentials: "same-origin"
     })
       .then((response) => response.json())
+      .then(console.log(words))
       .then((words) => {
         this.setState({ words });
+        return words;
       })
       // looping through the list to find out how many times a word has been used
-      .then(() =>
+      .then((words) =>
         words.forEach((e) =>
           e.emotions.forEach((d) => {
             this.setState((state) => {
               const currentWordCount = state.emotions[d];
               if (currentWordCount) {
                 return {
-                  emotions: currentWordCount + 1,
+                  emotions: {
+                    [d]: currentWordCount + 1,
+                  },
                 };
               }
-              return { emotions: 1 };
+              return {
+                emotions: {
+                  [d]: 1,
+                },
+              };
             });
           })
         )
       )
-      .then(console.log(emotions));
+
+      .then(console.log(emotions, words))
+      .catch((error) => {
+        console.log("This didn't work", error);
+      });
   };
 
   generatingFontSize = () => {
@@ -49,7 +61,7 @@ class WordCloud2 extends React.Component {
   render() {
     return (
       <WordCloud
-        data={this.state.emotions}
+        data={data}
         fontSizeMapper={fontSizeMapper}
         rotate={randomRotation}
         onWordClick={onClick}

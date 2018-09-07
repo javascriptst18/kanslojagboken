@@ -45,6 +45,7 @@ class App extends React.Component {
         ) : (
           <div className="App">
             <StartScreen key="startScreen" />
+            <WordCloud />
           </div>
         )}
       </ReactCSSTransitionReplace>
