@@ -14,7 +14,7 @@
 .start-screen .picked-emotions {
   background-color: #feffff;
   padding: 20px;
-  margin: 40px auto;
+  margin: 40px auto 30px auto;
   border: 1px solid #ddd;
   border-radius: 30px;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
@@ -24,6 +24,10 @@
 
 .start-screen .picked-emotions .picked-emotions-inner {
   padding: 16px 0;
+}
+
+.emotion-list {
+  margin-top: 20px;
 }
 
 .start-screen .add-emotion-button-wrapper {
@@ -103,4 +107,76 @@ button:disabled:hover + .add-emotion-error {
 .start-screen .add-emotion-button.skip:hover {
   background-color: #444;
   cursor: pointer;
+}
+
+button.openFilters {
+  background-color: #7daf95;
+  color: #feffff;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 3px solid #feffff;
+  font-size: 1.2rem;
+  margin: 0 0 20px 0;
+  -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+button.openFilters:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
+button.openFilters i.fa-caret-down,
+button.openFilters i.fa-caret-right {
+  margin-right: 10px;
+}
+
+button.openFilters i.fa-sliders-h {
+  margin-left: 12px;
+}
+
+.hidden-filters {
+  -webkit-transform: scaleY(0);
+  -o-transform: scaleY(0);
+  -ms-transform: scaleY(0);
+  transform: scaleY(0);
+
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+
+  -webkit-transition: -webkit-transform 0.3 ease, height 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3 ease, height 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3 ease, height 0.3s ease;
+  transition: transform 0.3s ease, height 0.3s ease;
+  height: 0;
+  overflow: hidden;
+}
+
+.hidden-filters.visible {
+  -webkit-transform: scaleY(1);
+  -o-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
+}
+
+.inner-filters * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.inner-filters {
+  padding: 20px;
+  border-bottom: dashed 1px #bbb;
+  border-top: dashed 1px #bbb;
+}
+
+.inner-filters p {
+  font-size: 1.2rem;
+  padding-bottom: 12px;
+  flex: 0 0 100%;
+  line-height: 1;
 }
