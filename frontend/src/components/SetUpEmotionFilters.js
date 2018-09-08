@@ -1,6 +1,7 @@
 import React from 'react';
 import FilterCheckbox from './FilterCheckbox';
 
+// Function for creating the filters
 function SetUpEmotionFilters(props) {
   const { colors, filterByColor, handleCheckbox } = props;
   // set up filters

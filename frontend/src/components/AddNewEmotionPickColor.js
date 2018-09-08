@@ -1,11 +1,14 @@
 import React from 'react';
 import './css/AddNewEmotionDialogue.css';
 
+// Function for picking color when adding a new emotion
 class AddNewEmotionPickColor extends React.Component {
   state = {
     checked: '',
   };
 
+  // function for keeping track of which checkbox is checked,
+  // and sending it to the parent component
   handleChange = (e) => {
     const { handleCheckbox } = this.props;
     this.setState({ checked: e.target.value }, () => {
@@ -17,6 +20,7 @@ class AddNewEmotionPickColor extends React.Component {
   render() {
     const { checked } = this.state;
     const { colors } = this.props;
+    // map all the colors and output them to the user
     const colorOutput = colors.map((color) => (
       <label className="add-new-color-label" htmlFor={color}>
         <input

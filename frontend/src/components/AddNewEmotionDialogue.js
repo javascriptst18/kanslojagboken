@@ -2,6 +2,7 @@ import React from 'react';
 import AddNewEmotionPickColor from './AddNewEmotionPickColor';
 import './css/AddNewEmotionDialogue.css';
 
+// Function for creating the dialogue that lets the user add new emotions
 class AddNewEmotionDialogue extends React.Component {
   state = {
     inputText: '',
@@ -18,6 +19,8 @@ class AddNewEmotionDialogue extends React.Component {
     selectedColor: '',
   };
 
+  // Function for keeping track of whats written in the input field,
+  // and outputting it in the preview
   handleChange = (e) => {
     const { previewFunction } = this.props;
     this.setState({ inputText: e.target.value }, () => {
@@ -26,6 +29,8 @@ class AddNewEmotionDialogue extends React.Component {
     });
   };
 
+  // Function for keeping track of which color the user picks,
+  // and outputting it in the preview
   handleCheckbox = (color) => {
     const { previewFunction } = this.props;
     this.setState({ selectedColor: color }, () => {
@@ -40,6 +45,7 @@ class AddNewEmotionDialogue extends React.Component {
       <div className="add-new-emotion-wrapper">
         <label htmlFor="new-emotion" className="new-emotion-label">
           Lägg till ny känsla:
+          {/* This is where the user writes the new emotion */}
           <input
             type="text"
             name="new-emotion"
@@ -49,6 +55,7 @@ class AddNewEmotionDialogue extends React.Component {
           />
         </label>
         <p className="new-emotion-label">Välj färg:</p>
+        {/* This is where the user selects which color the emotion should have */}
         <div className="select-color-wrapper">
           <AddNewEmotionPickColor
             handleCheckbox={this.handleCheckbox}
