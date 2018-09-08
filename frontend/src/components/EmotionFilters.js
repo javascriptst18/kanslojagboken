@@ -2,6 +2,7 @@ import React from 'react';
 import ToggleExpand from './ToggleExpand';
 import SetUpEmotionFilters from './SetUpEmotionFilters';
 
+// function for creating the filter menu and filters
 class EmotionFilters extends React.Component {
   hiddenFilterRef = React.createRef(); // Create ref to be able to open hidden filter menu
 

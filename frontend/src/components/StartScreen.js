@@ -1,10 +1,12 @@
 import React from 'react';
-import FlipMove from 'react-flip-move';
-import EmotionButton from './EmotionButton';
+import EmotionsOutput from './EmotionsOutput';
 import AddNewEmotionDialogue from './AddNewEmotionDialogue';
+import AddNewEmotionButtons from './AddNewEmotionButtons';
 import EmotionFilters from './EmotionFilters';
+import PickedByUserOutput from './PickedByUserOutput';
 import './css/StartScreen.css';
 
+// function for outputting the start screen of the app
 class StartScreen extends React.Component {
   state = {
     userData: [],
@@ -43,6 +45,7 @@ class StartScreen extends React.Component {
         color: 'purple',
       },
     ],
+    // The colors we have to work with
     colors: [
       'red',
       'green',
@@ -59,15 +62,20 @@ class StartScreen extends React.Component {
     user: { name: 'Nathalie' },
     // A random hello phrase, fetched from the database later
     randomHelloPhrase: 'hur mår du idag?',
+    // Is the add new emotion dialogue open or closed?
     addNewEmotionOpen: false,
+    // temporary storage for preview when creating new emotions
     newEmotionPreview: {
       name: '',
       color: '',
     },
+    // is the filter menu open?
     filtersOpen: false,
+    // if the user decides to filter by color, they will be saved in this array
     filterByColor: [],
   };
 
+  // Code to be run when component loads for the first time
   async componentDidMount() {
     const result = await fetch('./userdata?id=5b912c3f272a825d807bd24f');
     const data = await result.json();
@@ -115,31 +123,36 @@ class StartScreen extends React.Component {
     }
   };
 
+  // Function for saving new emotions
   saveEmotion = () => {
     const { newEmotionPreview, pickedByUser } = this.state;
     this.setState({
-      pickedByUser: [...pickedByUser, newEmotionPreview],
+      pickedByUser: [...pickedByUser, newEmotionPreview], // select the preview object and add it to the pickedByUser array
       newEmotionPreview: {
+        // empty the preview array
         name: '',
         color: '',
       },
-      addNewEmotionOpen: false,
-      filtersOpen: false,
+      addNewEmotionOpen: false, // close the add new emotion dialogue...
+      filtersOpen: false, // ...and the filters dialogue
     });
   };
 
+  // Function for when the user decides not to save the previewed emotion
   skipSaveEmotion = () => {
     this.setState({
       newEmotionPreview: {
+        // empty the preview object
         name: '',
         color: '',
       },
-      addNewEmotionOpen: false,
-      filtersOpen: false,
+      addNewEmotionOpen: false, // close the dialogue...
+      filtersOpen: false, // ...and the filters menu
     });
   };
 
   handlePreview = (text, incomingColor) => {
+    // function for showing the preview of the new emotion about to be crated by the user
     this.setState({
       newEmotionPreview: {
         name: text,
@@ -149,10 +162,13 @@ class StartScreen extends React.Component {
   };
 
   handleCheckbox = (checked, incomingColor) => {
+    // function for handling checkbox clicks in the filter dialogue
     const { filterByColor } = this.state;
     if (checked) {
+      // if checked, add it to the filter array...
       this.setState({ filterByColor: [...filterByColor, incomingColor] });
     } else {
+      // ... else remove it
       const removeFromFilter = filterByColor.filter(
         (item) => item !== incomingColor
       );
@@ -160,11 +176,14 @@ class StartScreen extends React.Component {
     }
   };
 
-  openFiltersCallback = (element) => {
+  // function for toggling the filters menu
+  openFiltersCallback = () => {
     const { filtersOpen } = this.state;
     if (filtersOpen) {
+      // if open, close it
       this.setState({ filtersOpen: false });
     } else {
+      // else, open it
       this.setState({ filtersOpen: true });
     }
   };
@@ -183,34 +202,6 @@ class StartScreen extends React.Component {
       filterByColor,
     } = this.state;
 
-    let pickedByUserOutput = '';
-    if (pickedByUser.length > 0) {
-      // If the user has picked something, add the emotion buttons to the picked container
-      pickedByUserOutput = pickedByUser.map((item) => (
-        <EmotionButton
-          item={item}
-          key={item.name}
-          returnFunction={this.handleChecked}
-          selected
-        />
-      ));
-    }
-    // create emotion buttons from all alternatives available in emotions state
-
-    let emotionsToShow = emotions;
-    if (filterByColor.length > 0) {
-      emotionsToShow = emotions.filter((item) =>
-        filterByColor.includes(item.color)
-      );
-    }
-    const emotionsOutput = emotionsToShow.map((item) => (
-      <EmotionButton
-        item={item}
-        key={item.name}
-        returnFunction={this.handleChecked}
-      />
-    ));
-
     return (
       <div className="start-screen">
         <div className="picked-emotions">
@@ -219,61 +210,29 @@ class StartScreen extends React.Component {
             {` ${user.name},`}
             <span>{randomHelloPhrase}</span>
           </h2>
-          {(pickedByUserOutput.length > 0 || newEmotionPreview.name !== '') && (
-            <div className="picked-emotions-inner">
-              {pickedByUserOutput.length > 0 && (
-                <FlipMove duration={500} staggerDurationBy={20}>
-                  {pickedByUserOutput}
-                </FlipMove>
-              )}
-              {newEmotionPreview.name !== '' && (
-                <button
-                  type="button"
-                  className={`emotion-list-item ${
-                    newEmotionPreview.color
-                  } selected`}
-                >
-                  {newEmotionPreview.name}
-                </button>
-              )}
-            </div>
-          )}
+          {/* The list of emotions picked by the user */}
+          <PickedByUserOutput
+            pickedByUser={pickedByUser}
+            handleChecked={this.handleChecked}
+            newEmotionPreview={newEmotionPreview}
+          />
         </div>
 
+        {/* If add new emotion dialogue is open */}
         {addNewEmotionOpen ? (
           <React.Fragment>
+            {/* Show the dialogue */}
             <AddNewEmotionDialogue previewFunction={this.handlePreview} />
-            <div className="add-emotion-button-wrapper">
-              <button
-                type="button"
-                className="add-emotion-button skip"
-                onClick={this.skipSaveEmotion}
-              >
-                <i className="fas fa-ban" />
-                <span>Avbryt</span>
-              </button>
-              <button
-                type="button"
-                className="add-emotion-button add"
-                onClick={this.saveEmotion}
-                disabled={
-                  newEmotionPreview.name === '' ||
-                  newEmotionPreview.color === ''
-                }
-              >
-                <i className="far fa-save" />
-                <span>Spara</span>
-              </button>
-              <div className="add-emotion-error">
-                <p>
-                  Du måste skriva in en känsla och välja en färg för att kunna
-                  spara
-                </p>
-              </div>
-            </div>
+            {/* Add save and abort buttons */}
+            <AddNewEmotionButtons
+              saveEmotion={this.saveEmotion}
+              skipSaveEmotion={this.skipSaveEmotion}
+              newEmotionPreview={newEmotionPreview}
+            />
           </React.Fragment>
         ) : (
           <React.Fragment>
+            {/* Show the filters */}
             <EmotionFilters
               colors={colors}
               filterByColor={filterByColor}
@@ -281,13 +240,15 @@ class StartScreen extends React.Component {
               filtersOpen={filtersOpen}
               openFiltersCallback={this.openFiltersCallback}
             />
+            {/* Show the list of emotions available to the user */}
+            <EmotionsOutput
+              emotions={emotions}
+              filterByColor={filterByColor}
+              handleChecked={this.handleChecked}
+            />
 
-            <div className="emotion-list">
-              <FlipMove duration={500} staggerDurationBy={20}>
-                {emotionsOutput}
-              </FlipMove>
-            </div>
             <div className="add-emotion-button-wrapper">
+              {/* Button for toggling the add new emotion dialogue */}
               <button
                 type="button"
                 className="add-emotion-button trigger-add"

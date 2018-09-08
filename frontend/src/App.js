@@ -12,6 +12,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     setTimeout(() => {
+      // set a timeout on load for how the long the splash screen should be visible
       this.setState({ splash: false });
     }, 1300);
   }
