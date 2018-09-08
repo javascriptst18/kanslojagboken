@@ -13,7 +13,7 @@ class App extends React.Component {
   async componentDidMount() {
     setTimeout(() => {
       this.setState({ splash: false });
-    }, 500);
+    }, 1300);
   }
 
   patchFetchData = async (url, post) => {
@@ -36,8 +36,8 @@ class App extends React.Component {
     return (
       <ReactCSSTransitionReplace
         transitionName="cross-fade"
-        transitionEnterTimeout={600}
-        transitionLeaveTimeout={600}
+        transitionEnterTimeout={800}
+        transitionLeaveTimeout={800}
       >
         {splash ? (
           <SplashScreen key="splashScreen" />
