@@ -10,6 +10,7 @@
 .splash-screen img {
   width: auto;
   max-height: 90%;
+  max-width: 90%;
   display: block;
   margin: 0 auto;
 }

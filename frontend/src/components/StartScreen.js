@@ -7,6 +7,7 @@ import './css/StartScreen.css';
 
 class StartScreen extends React.Component {
   state = {
+    userData: [],
     // List of pickable emotions, hard coded now, will be fetched from database later
     emotions: [
       {
@@ -66,6 +67,12 @@ class StartScreen extends React.Component {
     filtersOpen: false,
     filterByColor: [],
   };
+
+  async componentDidMount() {
+    const result = await fetch('./userdata?id=5b912c3f272a825d807bd24f');
+    const data = await result.json();
+    this.setState({ userData: data });
+  }
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
   handleChecked = (selected, incomingName) => {
