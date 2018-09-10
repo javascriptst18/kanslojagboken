@@ -4,6 +4,7 @@ import AddNewEmotionDialogue from './AddNewEmotionDialogue';
 import AddNewEmotionButtons from './AddNewEmotionButtons';
 import EmotionFilters from './EmotionFilters';
 import PickedByUserOutput from './PickedByUserOutput';
+import CreateEmotions from './CreateEmotions';
 import './css/StartScreen.css';
 
 // function for outputting the start screen of the app
@@ -11,40 +12,7 @@ class StartScreen extends React.Component {
   state = {
     userData: [],
     // List of pickable emotions, hard coded now, will be fetched from database later
-    emotions: [
-      {
-        name: 'Arg',
-        color: 'red',
-      },
-      {
-        name: 'Glad',
-        color: 'green',
-      },
-      {
-        name: 'Nedstämd',
-        color: 'blue',
-      },
-      {
-        name: 'Harmonisk',
-        color: 'orange',
-      },
-      {
-        name: 'Sprallig',
-        color: 'yellow',
-      },
-      {
-        name: 'Kärleksfylld',
-        color: 'pink',
-      },
-      {
-        name: 'Orolig',
-        color: 'turquoise',
-      },
-      {
-        name: 'Stressad',
-        color: 'purple',
-      },
-    ],
+    emotions: [],
     // The colors we have to work with
     colors: [
       'red',
@@ -79,7 +47,13 @@ class StartScreen extends React.Component {
   async componentDidMount() {
     const result = await fetch('./userdata?id=5b912c3f272a825d807bd24f');
     const data = await result.json();
-    this.setState({ userData: data });
+    this.setState({ userData: data }, () => {
+      const { userData } = this.state;
+      // run function for setting up the start screen emotions
+      const createdEmotions = CreateEmotions(userData.colors);
+      // add emotions to state
+      this.setState({ emotions: createdEmotions });
+    });
   }
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
