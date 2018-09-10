@@ -1,4 +1,4 @@
-patchFetchData = async (url, post) => {
+export const patchFetchData = async (url, post) => {
   try {
     return fetch(url, {
       method: 'POST',
@@ -10,5 +10,14 @@ patchFetchData = async (url, post) => {
     });
   } catch (error) {
     return error;
+  }
+};
+
+export const getFetch = async (url) => {
+  try {
+    const response = fetch(url);
+    return await response.json();
+  } catch (e) {
+    return e;
   }
 };
