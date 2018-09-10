@@ -4,72 +4,57 @@ import WordCloud from 'react-d3-cloud';
 
 class WordCloud2 extends React.Component {
   state = {
-    words: [],
-    emotions: {},
+    words: {},
+    emotions: [],
+    fontsize: [],
+    colors: [],
   };
 
-  componentDidMount() {
-    this.fetchWords();
+  async componentDidMount() {
+    const { words, fontsize, emotions } = this.state;
+    const result = await fetch(
+      '/userdatabydate?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
+    );
+    const response = await result.json();
+    this.setState({ words: response });
+    this.generatingFontSize();
+    this.fetchColor();
+    this.fetchEmotions();
   }
 
-  fetchWords = () => {
-    const { words, emotions } = this.state;
-    fetch('http://localhost:4000/userdata?id=5b912c3f272a825d807bd24f', {
-      method: 'GET',
-      // credentials: "same-origin"
-    })
-      .then((response) => response.json())
-      .then(console.log(words))
-      .then((words) => {
-        this.setState({ words });
-        return words;
-      })
-      // looping through the list to find out how many times a word has been used
-      .then((words) =>
-        words.forEach((e) =>
-          e.emotions.forEach((d) => {
-            this.setState((state) => {
-              const currentWordCount = state.emotions[d];
-              if (currentWordCount) {
-                return {
-                  emotions: {
-                    [d]: currentWordCount + 1,
-                  },
-                };
-              }
-              return {
-                emotions: {
-                  [d]: 1,
-                },
-              };
-            });
-          })
-        )
-      )
-
-      .then(console.log(emotions, words))
-      .catch((error) => {
-        console.log("This didn't work", error);
-      });
+  fetchEmotions = () => {
+    const { words } = this.state;
+    const emotions = Object.keys(words);
+    console.log('fetchEmotions: ', emotions);
+    this.setState({ emotions });
   };
 
   // I den här metoden ska font size genereras utefter antal gånger varje ord använts. Tanken är att den ska loopa igenom varje ord, hitta dens siffra och multiplicera med 5 så får den denna font size.
   // Sätt en max-gräns också.
   generatingFontSize = () => {
-    const { words } = this.state;
-    words.map((word) => Math.log2(word.value) * 5);
+    const { words, fontsize } = this.state;
+    const values = Object.values(words);
+    console.log('generatingFontSize: ', values);
+    const results = values.map((word) => Math.log2(word) * 5);
+    return results;
   };
 
   // Den här metoden ska sätta rätt färg på respektive ord. Det betyder att den måste loopa igenom color-databasen och match mot orden som ligger i föregående metod?
   fetchColor = () => {
-    console.log('this is the color');
+    const { colors } = this.state;
+    fetch('/userdata?id=5b912c3f272a825d807bd24f')
+      .then((response) => response.json())
+      .then(() => {
+        this.setState({ colors });
+      });
+    console.log('fetchColor: ', colors);
   };
 
   render() {
-    const { words, emotions } = this.state;
+    const { words, emotions, fontsize } = this.state;
     return (
       <WordCloud
-        data={data}
+        data={emotions}
         fontSizeMapper={fontSizeMapper}
         rotate={randomRotation}
         onWordClick={onClick}
@@ -132,3 +117,5 @@ const randomRotation = () => {
 export default WordCloud2;
 
 // Dependencies and documentation from https://www.npmjs.com/package/react-d3-cloud
+
+// listanmedord.filter() if emotion.name is the same as, return emotion. Style=
