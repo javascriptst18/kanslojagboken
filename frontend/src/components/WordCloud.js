@@ -4,9 +4,9 @@ import WordCloud from 'react-d3-cloud';
 
 class WordCloud2 extends React.Component {
   state = {
-    words: {},
+    words: [],
     emotions: [],
-    fontsize: [],
+    fontsize: 0,
     colors: [],
   };
 
@@ -17,6 +17,7 @@ class WordCloud2 extends React.Component {
     );
     const response = await result.json();
     this.setState({ words: response });
+    console.log('words: ', response);
     this.generatingFontSize();
     this.fetchColor();
     this.fetchEmotions();
@@ -35,8 +36,8 @@ class WordCloud2 extends React.Component {
     const { words, fontsize } = this.state;
     const values = Object.values(words);
     console.log('generatingFontSize: ', values);
-    const results = values.map((word) => Math.log2(word) * 5);
-    return results;
+    const results = values.map((word) => Math.log2(word) * 500);
+    this.setState({ fontsize: results });
   };
 
   // Den här metoden ska sätta rätt färg på respektive ord. Det betyder att den måste loopa igenom color-databasen och match mot orden som ligger i föregående metod?
@@ -47,14 +48,26 @@ class WordCloud2 extends React.Component {
       .then(() => {
         this.setState({ colors });
       });
-    console.log('fetchColor: ', colors);
+    // console.log('fetchColor: ', colors);
   };
 
   render() {
     const { words, emotions, fontsize } = this.state;
+    const finalArray = [];
+    for (let i = 0; i < Object.keys(words).length; i += 1) {
+      const array = Object.entries(words)[i];
+      finalArray.push(array);
+    }
+    // console.log(finalArray);
+    // försöker göra om så att "text" blir key, alltså känslan, och att "value" blir värdet, alltså siffran.
+    const newData = finalArray.map((item) => ({
+      text: item,
+      value: Math.random() * 2000,
+    }));
+    console.log(newData);
     return (
       <WordCloud
-        data={emotions}
+        data={newData}
         fontSizeMapper={fontSizeMapper}
         rotate={randomRotation}
         onWordClick={onClick}
@@ -93,7 +106,7 @@ function onWordClick() {
 }
 
 // Randomizes the font size of the words, will not be necessary when the words will be adjusted after how many times they've been used.
-const fontSizeMapper = (word) => Math.log2(word.value) * 5;
+const fontSizeMapper = (word) => Math.log2(word.value) * 10;
 const onClick = (word) => onWordClick(word);
 // Rotating words horizontally and vertically (in same direction)
 const rotate = () => (Math.floor(Math.random() * 2) % 2 === 1 ? 90 : 0);

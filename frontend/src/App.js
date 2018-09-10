@@ -4,7 +4,7 @@ import 'normalize.css';
 import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
-import WordCloud from './components/WordCloud';
+import WordCloud2 from './components/WordCloud';
 
 class App extends React.Component {
   state = {
@@ -31,7 +31,7 @@ class App extends React.Component {
         ) : (
           <div className="App">
             <StartScreen key="startScreen" />
-            <WordCloud />
+            <WordCloud2 />
           </div>
         )}
       </ReactCSSTransitionReplace>
