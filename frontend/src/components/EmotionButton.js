@@ -1,6 +1,7 @@
 import React from 'react';
 import './css/EmotionButton.css';
 
+// function for outputting each emotion button
 class EmotionButton extends React.Component {
   state = {
     selected: false,

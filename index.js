@@ -5,9 +5,6 @@ const ObjectId = require('mongodb').ObjectID;
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 
-
-
-
 const app = express();
 
 const PORT = 4000;

@@ -1,13 +1,16 @@
 .splash-screen {
-  width: 100vh;
   height: 100vh;
   background-color: #faf9f9;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  width: 100%;
 }
+
 .splash-screen img {
+  width: auto;
+  max-height: 90%;
   max-width: 90%;
-  height: auto;
+  display: block;
+  margin: 0 auto;
 }

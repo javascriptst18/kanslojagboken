@@ -1,7 +1,8 @@
 import React from 'react';
 import ToggleExpand from './ToggleExpand';
-import FilterCheckbox from './FilterCheckbox';
+import SetUpEmotionFilters from './SetUpEmotionFilters';
 
+// function for creating the filter menu and filters
 class EmotionFilters extends React.Component {
   hiddenFilterRef = React.createRef(); // Create ref to be able to open hidden filter menu
 
@@ -13,24 +14,6 @@ class EmotionFilters extends React.Component {
       filtersOpen,
       openFiltersCallback,
     } = this.props;
-    // set up filters
-    let emotionFiltersOutput = [];
-    if (colors.length > 0) {
-      emotionFiltersOutput = colors.map((item) => {
-        let checked = false;
-        if (filterByColor.includes(item)) {
-          checked = true;
-        }
-        return (
-          <FilterCheckbox
-            key={item}
-            color={item}
-            returnFunction={handleCheckbox}
-            checked={checked}
-          />
-        );
-      });
-    }
     return (
       <React.Fragment>
         <button
@@ -62,12 +45,11 @@ class EmotionFilters extends React.Component {
           className={`hidden-filters${filtersOpen ? ' visible' : ''}`}
           ref={this.hiddenFilterRef}
         >
-          <div className="inner-filters">
-            <div className="filter-color-wrapper">
-              <p>Filtrera efter färg:</p>
-              {emotionFiltersOutput}
-            </div>
-          </div>
+          <SetUpEmotionFilters
+            colors={colors}
+            filterByColor={filterByColor}
+            handleCheckbox={handleCheckbox}
+          />
         </div>
       </React.Fragment>
     );
