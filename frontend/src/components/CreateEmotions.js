@@ -1,5 +1,3 @@
-import React from 'react';
-
 // function for generating the user's emotion buttons
 function CreateEmotions(colors) {
   // map the colors

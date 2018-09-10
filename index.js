@@ -110,7 +110,7 @@ app.get('/userdatabydatewithcolor', (req, res, err) => {
     let color = result.colors;
     result = result.emotionData;
    
-   console.log(color);
+   
     result = result.filter((date)=>{
       if(date.date >= start && date.date <= end){
         return date;
@@ -124,15 +124,28 @@ app.get('/userdatabydatewithcolor', (req, res, err) => {
 
     result = result.reduce((accumulatedObject,emotion)=>{
       if(accumulatedObject[emotion]){
-        let value = accumulatedObject[emotion];
+        let value = accumulatedObject[emotion][0];
         value = value+1;
-        accumulatedObject[emotion]=value;
+        accumulatedObject[emotion]=[value];
       }else{
-        accumulatedObject[emotion]=1
+        accumulatedObject[emotion]=[1]
       }
+      
       return accumulatedObject;
       
     },{})
+    let keys = Object.keys(result);
+
+    for(let i = 0; i<keys.length; i++){
+      for(let j = 0; j<color.length; j++){
+        let hej = color[j][Object.keys(color[j])];
+        if(hej.includes(keys[i])){
+          result[keys[i]].push(Object.keys(color[j])[0])
+        }
+      }
+      
+    }
+
     res.send(result);
 
   client.close();

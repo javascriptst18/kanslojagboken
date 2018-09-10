@@ -1,6 +1,6 @@
 export const patchFetchData = async (url, post) => {
   try {
-    return fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
 
       body: JSON.stringify(post),
@@ -8,6 +8,7 @@ export const patchFetchData = async (url, post) => {
         'Content-Type': 'application/json',
       },
     });
+    return await response.json();
   } catch (error) {
     return error;
   }
@@ -15,7 +16,7 @@ export const patchFetchData = async (url, post) => {
 
 export const getFetch = async (url) => {
   try {
-    const response = fetch(url);
+    const response = await fetch(url);
     return await response.json();
   } catch (e) {
     return e;
