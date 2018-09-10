@@ -216,8 +216,6 @@ app.patch('/updateuserdata', async (req, res, err) => {
     });
 
 
-// -------------------------------------------------------- TODO ---------------------------------------------------------------------------
-
     app.patch('/updateusercolor', async (req, res, err) => {
   
       console.log(req.body.data);
@@ -230,7 +228,8 @@ app.patch('/updateuserdata', async (req, res, err) => {
       MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
         assert.equal(null, err);
         const collection = client.db("users").collection("userdata");
-        collection.findOneAndUpdate({$and:[{"_id": ObjectId(req.body.id)}, {"emotionData.date":date}]},{$set:{"emotionData.$.emotions":req.body.data }},{returnOriginal: false},function(err,result){
+        collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{"colors":req.body.data },{returnOriginal: false},function(err,result){
+          console.log(result);
           if(result.lastErrorObject.updatedExisting){
             res.send(result);
           }else{
