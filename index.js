@@ -113,7 +113,6 @@ app.get("/userdatabydatewithcolor", (req, res, err) => {
       let color = result.colors;
       result = result.emotionData;
 
-      console.log(color);
       result = result.filter(date => {
         if (date.date >= start && date.date <= end) {
           return date;
@@ -126,14 +125,26 @@ app.get("/userdatabydatewithcolor", (req, res, err) => {
 
       result = result.reduce((accumulatedObject, emotion) => {
         if (accumulatedObject[emotion]) {
-          let value = accumulatedObject[emotion];
+          let value = accumulatedObject[emotion][0];
           value = value + 1;
-          accumulatedObject[emotion] = value;
+          accumulatedObject[emotion] = [value];
         } else {
-          accumulatedObject[emotion] = 1;
+          accumulatedObject[emotion] = [1];
         }
+
         return accumulatedObject;
       }, {});
+      let keys = Object.keys(result);
+
+      for (let i = 0; i < keys.length; i++) {
+        for (let j = 0; j < color.length; j++) {
+          let hej = color[j][Object.keys(color[j])];
+          if (hej.includes(keys[i])) {
+            result[keys[i]].push(Object.keys(color[j])[0]);
+          }
+        }
+      }
+
       res.send(result);
 
       client.close();
@@ -231,22 +242,12 @@ app.patch("/updateuserdata", async (req, res, err) => {
     );
   });
 
-  //-------------------------------------------------------Script to insert test data ----------------------------------------------------------------
+  app.patch("/updateusercolor", async (req, res, err) => {
+    console.log(req.body.data);
+    let date = await new Date();
 
-  app.get("/posttestdata", async (req, res, error) => {
-    let random = Math.floor(Math.random() * 30) + 1;
-    let randomM = Math.floor(Math.random() * 11);
-    let randomY = Math.floor(Math.random() * 3) + 2016;
-    let emotionArray = ["Arg", "Exhalterad", "Glad", "Trevlig", "Social", "Trött", "Kaffesugen", "Nedstämd", "Harmonisk", "Kärleksfylld", "Orolig", "Stressad", "Sprallig", "JavaScriptig", "Intelligent", "Nyfiken", "Rädd", "Snygg", "Äcklig"];
-    let emotion = [];
-    let randomIteration = Math.floor(Math.random() * 5) + 1;
-    for (let i = 0; i < randomIteration; i++) {
-      emotion.push(emotionArray[Math.floor(Math.random() * emotionArray.length)]);
-    }
-
-    let date = await new Date(randomY, randomM, random);
     date.setHours(0, 0, 0, 0);
-    let objEmotionData = { date: date, emotions: emotion };
+    console.log(date);
 
     MongoClient.connect(
       uri,
@@ -254,10 +255,9 @@ app.patch("/updateuserdata", async (req, res, err) => {
       async function(err, client) {
         assert.equal(null, err);
         const collection = client.db("users").collection("userdata");
-        collection.findOneAndUpdate({ _id: ObjectId("5b912c3f272a825d807bd24f") }, { $push: { emotionData: objEmotionData } }, { returnOriginal: false }, function(err, result) {
-          if (err) {
-            error.send(err);
-          } else {
+        collection.findOneAndUpdate({ _id: ObjectId(req.body.id) }, { colors: req.body.data }, { returnOriginal: false }, function(err, result) {
+          console.log(result);
+          if (result.lastErrorObject.updatedExisting) {
             res.send(result);
           }
         });
