@@ -18,16 +18,24 @@ class App extends React.Component {
     let data = await fetch('/userdata?id=5b912c3f272a825d807bd24f');
     data = await data.json();
     console.log(data);
-
-    let data2 = await this.patchFetchData('/updateuserdata', {
+    /*
+    let data2 = await this.patchFetchData('/posttestdata', {
       id: '5b912c3f272a825d807bd24f',
       data: ['hello', 'yes', 'new', 'more'],
     });
     data2 = await data2.json();
     console.log(data2);
+    */
+    /*
+    for (let i = 0; i < 500; i++) {
+      let data4 = await fetch('/posttestdata');
+      data4 = await data4.json();
+      console.log(data4);
+    }
+*/
 
     let data4 = await fetch(
-      '/userdatabydate?id=5b912c3f272a825d807bd24f&datestart=20180722&dateend=20180903'
+      '/userdatabydate?id=5b912c3f272a825d807bd24f&datestart=20180122&dateend=20180403'
     );
     data4 = await data4.json();
     console.log(data4);
