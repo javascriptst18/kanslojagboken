@@ -24,8 +24,6 @@ class StartScreen extends React.Component {
     ],
     // Where we store the emotions that the user picks
     pickedByUser: [],
-    // Users details
-    user: { name: 'Nathalie' },
     // A random hello phrase, fetched from the database later
     randomHelloPhrase: 'hur mår du idag?',
     // Is the add new emotion dialogue open or closed?
@@ -173,7 +171,7 @@ class StartScreen extends React.Component {
         <div className="picked-emotions">
           <h2>
             Hej
-            {` ${user.name},`}
+            {` ${this.props.name},`}
             <span>{randomHelloPhrase}</span>
           </h2>
           {/* The list of emotions picked by the user */}

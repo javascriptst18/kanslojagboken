@@ -6,6 +6,7 @@ import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 import ColorGradientStats from './components/stats/ColorGradientStats';
 import CreateEmotions from './components/CreateEmotions';
+import { getFetch } from './components/functions/fetchFunctions';
 
 class App extends React.Component {
   state = {
@@ -16,13 +17,14 @@ class App extends React.Component {
 
   async componentDidMount() {
     // Code to be run when component loads for the first time
-    const result = await fetch('./userdata?id=5b912c3f272a825d807bd24f');
-    const data = await result.json();
+    const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
+    console.log(data);
     this.setState({ userData: data }, () => {
       const { userData } = this.state;
       // run function for setting up the start screen emotions
       const createdEmotions = CreateEmotions(userData.colors);
       // add emotions to state
+
       this.setState({ emotions: createdEmotions });
     });
     setTimeout(() => {
@@ -46,7 +48,11 @@ class App extends React.Component {
           <SplashScreen key="splashScreen" />
         ) : (
           <div className="App">
-            <StartScreen key="startScreen" emotions={emotions} />
+            <StartScreen
+              key="startScreen"
+              emotions={emotions}
+              name={this.state.userData.name}
+            />
           </div>
         )}
       </ReactCSSTransitionReplace>
