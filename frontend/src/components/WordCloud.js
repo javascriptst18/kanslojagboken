@@ -53,12 +53,20 @@ class WordCloud2 extends React.Component {
       });
   };
 
+  // I den här metoden ska font size genereras utefter antal gånger varje ord använts. Tanken är att den ska loopa igenom varje ord, hitta dens siffra och multiplicera med 5 så får den denna font size.
+  // Sätt en max-gräns också.
   generatingFontSize = () => {
     const { words } = this.state;
     words.map((word) => Math.log2(word.value) * 5);
   };
 
+  // Den här metoden ska sätta rätt färg på respektive ord. Det betyder att den måste loopa igenom color-databasen och match mot orden som ligger i föregående metod?
+  fetchColor = () => {
+    console.log('this is the color');
+  };
+
   render() {
+    const { words, emotions } = this.state;
     return (
       <WordCloud
         data={data}
