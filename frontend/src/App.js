@@ -13,32 +13,18 @@ class App extends React.Component {
 
   async componentDidMount() {
     setTimeout(() => {
+      // set a timeout on load for how the long the splash screen should be visible
       this.setState({ splash: false });
-    }, 500);
+    }, 1300);
   }
-
-  patchFetchData = async (url, post) => {
-    try {
-      return await fetch(url, {
-        method: 'POST',
-
-        body: JSON.stringify(post),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } catch (error) {
-      return error;
-    }
-  };
 
   render() {
     const { splash } = this.state;
     return (
       <ReactCSSTransitionReplace
         transitionName="cross-fade"
-        transitionEnterTimeout={600}
-        transitionLeaveTimeout={600}
+        transitionEnterTimeout={800}
+        transitionLeaveTimeout={800}
       >
         {splash ? (
           <SplashScreen key="splashScreen" />

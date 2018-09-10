@@ -1,4 +1,4 @@
-// Function for animating height of elements
+// Function for calculating the height of elements for smooth and correct animations
 function ToggleExpand(element, open, callback) {
   if (open) {
     element.style.height = '0px';
