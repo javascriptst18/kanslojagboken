@@ -97,20 +97,16 @@ class WordCloud2 extends React.Component {
       };
     });
 
-    // const percentages = [];
-    // Object.entries(colorCount).forEach(([key, value]) =>
-    //   percentages.push({ [key]: (value / totalCount) * 100 })
-    // );
     // Mapping through the new array to make a property of each value
 
-    // Calculating the font size of the words based on frequency
+    // Calculating the percentage font size of the words based on frequency
     const fontSizeMapper = (word) => (word.value / emotionsHighestValue) * 100;
     // OnWordClick is applied to every word
     const onClick = (word) => this.onWordClick(word);
     return (
       <WordCloud
         width={550}
-        height={750}
+        height={550}
         padding={4}
         font="Source Sans Pro"
         data={newData}
