@@ -4,6 +4,7 @@ body {
   font-size: 1rem;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
+  background-color: #faf9f9;
 }
 
 strong {
@@ -14,12 +15,52 @@ em {
   font-style: italic;
 }
 
+nav.top-menu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: rgb(254, 255, 255, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+nav.top-menu button {
+  border: none;
+  padding: 6px 6px 8px 6px;
+  margin-right: 20px;
+  font-size: 1.2rem;
+  background: none;
+  color: #7daf95;
+}
+
+nav.top-menu button:last-of-type {
+  margin-right: 0;
+}
+
+nav.top-menu button:hover,
+nav.top-menu button.current-page {
+  border-bottom: 2px solid #7daf95;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.page-wrapper {
+  padding-top: 90px;
+  width: 100%;
+  background: #faf9f9 url("./images/color-explosion.png") calc(50% - 250px) 10px
+    no-repeat;
+  background-size: 300px;
+}
+
 .App {
   width: 550px;
   max-width: 96%;
   margin: 0 auto;
   text-align: center;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 h1,
