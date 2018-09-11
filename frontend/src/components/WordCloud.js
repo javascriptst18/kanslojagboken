@@ -19,8 +19,25 @@ class WordCloud2 extends React.Component {
     console.log('emotions: ', response);
   }
 
+  // What happens when you click a word
   onWordClick = () => {
     console.log('helluuu');
+  };
+
+  // Rotating emotions horizontally and vertical in two directions.
+  randomRotation = () => {
+    const randomValue = Math.floor(Math.random() * 3);
+    switch (randomValue) {
+      case 0:
+        return 0;
+      case 1:
+        return 90;
+      case 2:
+        return 270;
+      default:
+        console.error('incorrect random value generated');
+        return 0;
+    }
   };
 
   render() {
@@ -36,6 +53,8 @@ class WordCloud2 extends React.Component {
     console.log('newData: ', newData);
     // Calculating the font size of the words based on frequency
     const fontSizeMapper = (word) => Math.log2(word.value) * 20;
+    // OnWordClick is applied to every word
+    const onClick = (word) => this.onWordClick(word);
     return (
       <WordCloud
         width={1000}
@@ -44,39 +63,16 @@ class WordCloud2 extends React.Component {
         font={'sans-serif'}
         data={newData}
         fontSizeMapper={fontSizeMapper}
-        rotate={randomRotation}
+        rotate={this.randomRotation}
         onWordClick={onClick}
       />
     );
   }
 }
 
-// What's happening when you click a word
-function onWordClick() {
-  console.log('Helluu');
-}
-
-const onClick = (word) => onWordClick(word);
 // Rotating emotions horizontally and vertically (in same direction)
 const rotate = () => (Math.floor(Math.random() * 2) % 2 === 1 ? 90 : 0);
-// Rotating emotio horizontally and vertical in two directions.
-const randomRotation = () => {
-  const randomValue = Math.floor(Math.random() * 3);
-  switch (randomValue) {
-    case 0:
-      return 0;
-    case 1:
-      return 90;
-    case 2:
-      return 270;
-    default:
-      console.error('incorrect random value generated');
-      return 0;
-  }
-};
 
 export default WordCloud2;
 
 // Dependencies and documentation from https://www.npmjs.com/package/react-d3-cloud
-
-// listanmedord.filter() if emotion.name is the same as, return emotion. Style=
