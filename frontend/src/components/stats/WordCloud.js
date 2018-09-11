@@ -6,6 +6,7 @@ import WordCloud from './TheWordCloudBase';
 class WordCloud2 extends React.Component {
   state = {
     emotions: [],
+    emotionsHighestValue: '',
   };
 
   async componentDidMount() {
@@ -13,9 +14,17 @@ class WordCloud2 extends React.Component {
       '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
     );
     const response = await result.json();
-    this.setState({
-      emotions: response,
-    });
+    this.setState(
+      {
+        emotions: response,
+      },
+      () => {
+        const { emotions } = this.state;
+        const values = Object.keys(emotions).map((key) => emotions[key][0]);
+        const maxValue = Math.max(...values);
+        this.setState({ emotionsHighestValue: maxValue });
+      }
+    );
   }
 
   // What happens when you click a word
@@ -40,10 +49,9 @@ class WordCloud2 extends React.Component {
   };
 
   render() {
-    const { emotions } = this.state;
+    const { emotions, emotionsHighestValue } = this.state;
     // making the Emotions-object to an array
     const newWordsArray = Object.entries(emotions);
-    // Mapping through the new array to make a property of each value
     let hexColor = '';
     const newData = newWordsArray.map((item) => {
       switch (item[1][1]) {
@@ -88,13 +96,20 @@ class WordCloud2 extends React.Component {
         color: hexColor,
       };
     });
+
+    // const percentages = [];
+    // Object.entries(colorCount).forEach(([key, value]) =>
+    //   percentages.push({ [key]: (value / totalCount) * 100 })
+    // );
+    // Mapping through the new array to make a property of each value
+
     // Calculating the font size of the words based on frequency
-    const fontSizeMapper = (word) => Math.log2(word.value) * 20;
+    const fontSizeMapper = (word) => (word.value / emotionsHighestValue) * 100;
     // OnWordClick is applied to every word
     const onClick = (word) => this.onWordClick(word);
     return (
       <WordCloud
-        width={1000}
+        width={550}
         height={750}
         padding={4}
         font="Source Sans Pro"

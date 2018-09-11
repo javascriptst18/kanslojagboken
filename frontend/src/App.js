@@ -4,17 +4,16 @@ import 'normalize.css';
 import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
-import WordCloud2 from './components/WordCloud';
+import StatsScreen from './components/StatsScreen';
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
-import ColorGradientStats from './components/stats/ColorGradientStats';
 
 class App extends React.Component {
   state = {
     emotions: [],
     splash: true,
     startScreen: false,
-    colorGradientOpen: false,
+    statsScreen: false,
     hello: '',
   };
 
@@ -22,7 +21,7 @@ class App extends React.Component {
     // Code to be run when component loads for the first time
 
     const randomHello = await getFetch('./hello');
-    console.log(randomHello);
+
     this.setState({ hello: randomHello[0] });
 
     const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
@@ -48,12 +47,12 @@ class App extends React.Component {
     if (e.target.dataset.menuitem === 'start') {
       this.setState({
         startScreen: true,
-        colorGradientOpen: false,
+        statsScreen: false,
       });
     } else {
       this.setState({
         startScreen: false,
-        colorGradientOpen: true,
+        statsScreen: true,
       });
     }
   };
@@ -62,7 +61,7 @@ class App extends React.Component {
     const {
       splash,
       startScreen,
-      colorGradientOpen,
+      statsScreen,
       emotions,
       userData,
       hello,
@@ -80,7 +79,6 @@ class App extends React.Component {
               name={userData.name}
               randomHelloPhrase={hello}
             />
-            <WordCloud2 />
           </div>
         </div>
       );
@@ -88,7 +86,7 @@ class App extends React.Component {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <ColorGradientStats key="colorGradient" emotions={emotions} />
+            <StatsScreen key="statsScreen" emotions={emotions} />
           </div>
         </div>
       );
@@ -107,9 +105,7 @@ class App extends React.Component {
             </button>
             <button
               type="button"
-              className={`menu-button${
-                colorGradientOpen ? ' current-page' : ''
-              }`}
+              className={`menu-button${statsScreen ? ' current-page' : ''}`}
               data-menuitem="stats"
               onClick={this.toggleMenu}
             >

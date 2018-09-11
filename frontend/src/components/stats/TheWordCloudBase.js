@@ -66,7 +66,7 @@ class WordCloud extends Component {
           .data(words)
           .enter()
           .append('text')
-          .style('font-size', (d) => `${d.size}px`)
+          .style('font-size', (d) => `${d.size}%`)
           .style('font-family', font)
           .style('fill', (d) => {
             console.log('d: ', d);
