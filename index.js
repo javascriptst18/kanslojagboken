@@ -22,16 +22,52 @@ app.use(cors());
 /* 
         Documentation
 
-        GET /userdata with        req.query.id as userid, gets all data for that user
-        GET /userdatabydate       emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
-        POST /newuser    with     req.body.data as first emotion array
-        PATCH /updateuserdata     (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
-        POST /updateuserdata      (for new data for that day) req.body.data as emotion array req.body.id as userid
-        PATCH /updateusercolor    TODO
+        GET /hello                    to get a hello phrase dependent on time of day
+        GET /userdata with            req.query.id as userid, gets all data for that user
+        GET /userdatabydate           emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
+        GET /userdatabydatewithcolor  emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend) with corresponding color
+        POST /newuser                 req.body.data as first emotion array   -----------EDIT REQUIRED-------------
+        PATCH /updateuserdata         (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
+        POST /updateuserdata          (for new data for that day) req.body.data as emotion array req.body.id as userid
+        PATCH /updateusercolor        req.body.id and req.body.data, for updating the colors for a user
 
 */
 
 
+app.get('/hello', async (req, res, err) => {
+  const date = new Date();
+  const hours = date.getHours();
+
+  MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
+    assert.equal(null, err);
+    const collection = client.db("storage").collection("helloPhrases");
+    let result = await collection.findOne(ObjectId("5b9790acc0f58e78ec432a2b"))
+    result = result.helloPhrase
+    
+    const random = Math.floor(Math.random()*2);
+    if(hours>=4 && hours<10){
+      const newHelloArray = result.slice(0, 2)
+      res.send([newHelloArray[random]])
+    }else if(hours>=10 && hours<16){
+     const newHelloArray= result.slice(2, 4)
+      res.send([newHelloArray[random]])
+    }else if(hours>=16 && hours<22){
+      const newHelloArray= result.slice(4, 6)
+      res.send([newHelloArray[random]])
+    }else if(hours>=22 && hours<4){
+      const newHelloArray= result.slice(6, 8)
+      res.send([newHelloArray[random]])
+    }
+
+  client.close();
+  });
+  
+  
+
+  
+  
+  
+})
 // GET userdata req.query.id  
 app.get('/userdata', async (req, res, err) => {
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
@@ -110,7 +146,7 @@ app.get('/userdatabydatewithcolor', (req, res, err) => {
     let color = result.colors;
     result = result.emotionData;
    
-   console.log(color);
+   
     result = result.filter((date)=>{
       if(date.date >= start && date.date <= end){
         return date;
@@ -124,15 +160,28 @@ app.get('/userdatabydatewithcolor', (req, res, err) => {
 
     result = result.reduce((accumulatedObject,emotion)=>{
       if(accumulatedObject[emotion]){
-        let value = accumulatedObject[emotion];
+        let value = accumulatedObject[emotion][0];
         value = value+1;
-        accumulatedObject[emotion]=value;
+        accumulatedObject[emotion]=[value];
       }else{
-        accumulatedObject[emotion]=1
+        accumulatedObject[emotion]=[1]
       }
+      
       return accumulatedObject;
       
     },{})
+    
+
+
+    Object.keys(result).forEach((i) =>{
+      Object.keys(color).forEach((j) =>{
+        let hej = color[j][Object.keys(color[j])];
+        if(hej.includes(i)){
+          result[i].push(Object.keys(color[j])[0])
+        }
+      })
+    })
+
     res.send(result);
 
   client.close();
@@ -203,21 +252,12 @@ app.patch('/updateuserdata', async (req, res, err) => {
     });
 
 
-// -------------------------------------------------------- TODO ---------------------------------------------------------------------------
-
     app.patch('/updateusercolor', async (req, res, err) => {
-  
-      console.log(req.body.data);
-      let date = await new Date()
-    
-      date.setHours(0,0,0,0);
-    console.log(date);
-    
     
       MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
         assert.equal(null, err);
         const collection = client.db("users").collection("userdata");
-        collection.findOneAndUpdate({$and:[{"_id": ObjectId(req.body.id)}, {"emotionData.date":date}]},{$set:{"emotionData.$.emotions":req.body.data }},{returnOriginal: false},function(err,result){
+        collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{$set:{"colors":req.body.data }},{returnOriginal: false},function(err,result){
           if(result.lastErrorObject.updatedExisting){
             res.send(result);
           }else{
@@ -240,7 +280,7 @@ app.get('/posttestdata', async (req, res, error) => {
   
   let random = Math.floor(Math.random()*30)+1;
   let randomM = Math.floor(Math.random()*11);
-  let randomY = Math.floor(Math.random()*3)+2016;
+  let randomY = 2018 //Math.floor(Math.random()*3)+2016;
   let emotionArray = ["Arg","Exhalterad","Glad","Trevlig","Social","Trött","Kaffesugen","Nedstämd","Harmonisk","Kärleksfylld","Orolig","Stressad","Sprallig","JavaScriptig","Intelligent","Nyfiken","Rädd","Snygg","Äcklig"]
   let emotion = [];
   let randomIteration = (Math.floor(Math.random()*5)+1);

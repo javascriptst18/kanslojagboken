@@ -24,10 +24,8 @@ class StartScreen extends React.Component {
     ],
     // Where we store the emotions that the user picks
     pickedByUser: [],
-    // Users details
-    user: { name: 'Nathalie' },
     // A random hello phrase, fetched from the database later
-    randomHelloPhrase: 'hur mår du idag?',
+    randomHelloPhrase: '',
     // Is the add new emotion dialogue open or closed?
     addNewEmotionOpen: false,
     // temporary storage for preview when creating new emotions
@@ -159,8 +157,6 @@ class StartScreen extends React.Component {
     const {
       emotions,
       colors,
-      user,
-      randomHelloPhrase,
       pickedByUser,
       addNewEmotionOpen,
       newEmotionPreview,
@@ -168,12 +164,14 @@ class StartScreen extends React.Component {
       filterByColor,
     } = this.state;
 
+    const { randomHelloPhrase } = this.props;
+
     return (
       <div className="start-screen">
         <div className="picked-emotions">
           <h2>
             Hej
-            {` ${user.name},`}
+            {` ${this.props.name},`}
             <span>{randomHelloPhrase}</span>
           </h2>
           {/* The list of emotions picked by the user */}

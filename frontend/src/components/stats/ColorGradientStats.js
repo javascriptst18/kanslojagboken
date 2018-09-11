@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFetch } from '../../functions/fetchFunctions';
+import { getFetch } from '../functions/fetchFunctions';
 
 class ColorGradientStats extends React.Component {
   state = {

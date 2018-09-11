@@ -5,7 +5,8 @@ import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 import ColorGradientStats from './components/stats/ColorGradientStats';
-import CreateEmotions from './components/CreateEmotions';
+import CreateEmotions from './components/functions/CreateEmotions';
+import { getFetch } from './components/functions/fetchFunctions';
 
 class App extends React.Component {
   state = {
@@ -13,17 +14,24 @@ class App extends React.Component {
     splash: true,
     startScreen: false,
     colorGradientOpen: false,
+    hello: '',
   };
 
   async componentDidMount() {
     // Code to be run when component loads for the first time
-    const result = await fetch('./userdata?id=5b912c3f272a825d807bd24f');
-    const data = await result.json();
-    this.setState({ userData: data }, () => {
+
+    const randomHello = await getFetch('./hello');
+    console.log(randomHello);
+    this.setState({ hello: randomHello[0] });
+
+    const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
+
+    this.setState({ userData: data }, async () => {
       const { userData } = this.state;
+
       // run function for setting up the start screen emotions
       const createdEmotions = CreateEmotions(userData.colors);
-      // add emotions to state
+
       this.setState({ emotions: createdEmotions });
     });
     setTimeout(() => {
@@ -50,7 +58,14 @@ class App extends React.Component {
   };
 
   render() {
-    const { splash, startScreen, colorGradientOpen, emotions } = this.state;
+    const {
+      splash,
+      startScreen,
+      colorGradientOpen,
+      emotions,
+      userData,
+      hello,
+    } = this.state;
     let whatToRender = '';
     if (splash) {
       whatToRender = <SplashScreen key="splashScreen" />;
@@ -58,7 +73,12 @@ class App extends React.Component {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <StartScreen key="startScreen" emotions={emotions} />
+            <StartScreen
+              key="startScreen"
+              emotions={emotions}
+              name={userData.name}
+              randomHelloPhrase={hello}
+            />
           </div>
         </div>
       );
