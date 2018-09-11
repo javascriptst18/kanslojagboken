@@ -4,54 +4,48 @@ import WordCloud from 'react-d3-cloud';
 
 class WordCloud2 extends React.Component {
   state = {
-    words: [],
     emotions: [],
-    fontsize: 0,
-    colors: [],
   };
 
   async componentDidMount() {
-    const { words, fontsize, emotions } = this.state;
     const result = await fetch(
-      '/userdatabydate?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
+      '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
     );
     const response = await result.json();
-    this.setState({ words: response });
-    console.log('words: ', response);
-    this.fetchColor();
+    this.setState({
+      emotions: response,
+    });
+    console.log('emotions: ', response);
   }
 
-  // Den här metoden ska sätta rätt färg på respektive ord. Det betyder att den måste loopa igenom color-databasen och match mot orden som ligger i föregående metod?
-  fetchColor = () => {
-    const { colors } = this.state;
-    fetch('/userdata?id=5b912c3f272a825d807bd24f')
-      .then((response) => response.json())
-      .then(() => {
-        this.setState({ colors });
-      });
-    // console.log('fetchColor: ', colors);
+  onWordClick = () => {
+    console.log('helluuu');
   };
 
   render() {
-    const { words, emotions, fontsize } = this.state;
-    const finalArray = [];
-    for (let i = 0; i < Object.keys(words).length; i += 1) {
-      const array = Object.entries(words)[i];
-      finalArray.push(array);
-    }
-    console.log(finalArray);
-    // försöker göra om så att "text" blir key, alltså känslan, och att "value" blir värdet, alltså siffran.
-    const newData = finalArray.map((item) => ({
+    const { emotions } = this.state;
+    // making the Emotions-object to an array
+    const newWordsArray = Object.entries(emotions);
+    // Mapping through the new array to make a property of each value
+    const newData = newWordsArray.map((item) => ({
       text: item[0],
-      value: item[1],
+      value: item[1][0],
+      color: item[1][1],
     }));
-    console.log(newData);
+    console.log('newData: ', newData);
+    // Calculating the font size of the words based on frequency
+    const fontSizeMapper = (word) => Math.log2(word.value) * 20;
     return (
       <WordCloud
+        width={1000}
+        height={750}
+        padding={4}
+        font={'sans-serif'}
         data={newData}
         fontSizeMapper={fontSizeMapper}
         rotate={randomRotation}
         onWordClick={onClick}
+        fill={'blue'}
       />
     );
   }
@@ -62,12 +56,10 @@ function onWordClick() {
   console.log('Helluu');
 }
 
-// Randomizes the font size of the words, will not be necessary when the words will be adjusted after how many times they've been used.
-const fontSizeMapper = (word) => Math.log2(word.value) * 20;
 const onClick = (word) => onWordClick(word);
-// Rotating words horizontally and vertically (in same direction)
+// Rotating emotions horizontally and vertically (in same direction)
 const rotate = () => (Math.floor(Math.random() * 2) % 2 === 1 ? 90 : 0);
-// Rotating words horizontally and vertical in two directions.
+// Rotating emotio horizontally and vertical in two directions.
 const randomRotation = () => {
   const randomValue = Math.floor(Math.random() * 3);
   switch (randomValue) {
@@ -82,7 +74,6 @@ const randomRotation = () => {
       return 0;
   }
 };
-// const rotate = (word) => word.value % 360;
 
 export default WordCloud2;
 
