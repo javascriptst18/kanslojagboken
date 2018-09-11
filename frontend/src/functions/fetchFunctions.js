@@ -15,7 +15,7 @@ export const patchFetchData = async (url, post) => {
 
 export const getFetch = async (url) => {
   try {
-    const response = fetch(url);
+    const response = await fetch(url);
     return await response.json();
   } catch (e) {
     return e;
