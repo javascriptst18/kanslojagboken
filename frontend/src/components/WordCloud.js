@@ -16,7 +16,6 @@ class WordCloud2 extends React.Component {
     this.setState({
       emotions: response,
     });
-    console.log('emotions: ', response);
   }
 
   // What happens when you click a word
@@ -45,12 +44,50 @@ class WordCloud2 extends React.Component {
     // making the Emotions-object to an array
     const newWordsArray = Object.entries(emotions);
     // Mapping through the new array to make a property of each value
-    const newData = newWordsArray.map((item) => ({
-      text: item[0],
-      value: item[1][0],
-      color: item[1][1],
-    }));
-    console.log('newData: ', newData);
+    let hexColor = '';
+    const newData = newWordsArray.map((item) => {
+      switch (item[1][1]) {
+        case 'red':
+          hexColor = '#b51316';
+          break;
+
+        case 'orange':
+          hexColor = '#e2701a';
+          break;
+
+        case 'yellow':
+          hexColor = '#f9e41c';
+          break;
+
+        case 'green':
+          hexColor = '#017f43';
+          break;
+
+        case 'turquoise':
+          hexColor = '#008988';
+          break;
+
+        case 'blue':
+          hexColor = '#081b64';
+          break;
+
+        case 'purple':
+          hexColor = '#6a005a';
+          break;
+
+        case 'pink':
+          hexColor = '#e44097';
+          break;
+
+        default:
+          return null;
+      }
+      return {
+        text: item[0],
+        value: item[1][0],
+        color: hexColor,
+      };
+    });
     // Calculating the font size of the words based on frequency
     const fontSizeMapper = (word) => Math.log2(word.value) * 20;
     // OnWordClick is applied to every word
@@ -60,7 +97,7 @@ class WordCloud2 extends React.Component {
         width={1000}
         height={750}
         padding={4}
-        font={'sans-serif'}
+        font="Source Sans Pro"
         data={newData}
         fontSizeMapper={fontSizeMapper}
         rotate={this.randomRotation}
