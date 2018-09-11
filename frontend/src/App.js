@@ -5,11 +5,8 @@ import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 import ColorGradientStats from './components/stats/ColorGradientStats';
-import CreateEmotions from './components/CreateEmotions';
-import {
-  getFetch,
-  patchFetchData,
-} from './components/functions/fetchFunctions';
+import CreateEmotions from './components/functions/CreateEmotions';
+import { getFetch } from './components/functions/fetchFunctions';
 
 class App extends React.Component {
   state = {
