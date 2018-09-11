@@ -130,7 +130,6 @@ class ColorGradientStats extends React.Component {
           }
         }
       }
-      console.log(orderedColorArray);
       let percentageCounter = 0;
       for (let j = 0; j < orderedColorArray.length; j += 1) {
         gradient += `${orderedColorArray[j].color} ${percentageCounter}%`;
