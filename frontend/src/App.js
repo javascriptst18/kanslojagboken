@@ -6,7 +6,7 @@ import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 import WordCloud2 from './components/WordCloud';
 import ColorGradientStats from './components/stats/ColorGradientStats';
-import CreateEmotions from './components/CreateEmotions';
+import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
 
 class App extends React.Component {
@@ -14,17 +14,23 @@ class App extends React.Component {
     emotions: [],
     splash: true,
     colorGradientOpen: false,
+    hello: '',
   };
 
   async componentDidMount() {
     // Code to be run when component loads for the first time
+
+    const randomHello = await getFetch('./hello');
+    console.log(randomHello);
+    this.setState({ hello: randomHello[0] });
+
     const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
-    console.log(data);
-    this.setState({ userData: data }, () => {
+
+    this.setState({ userData: data }, async () => {
       const { userData } = this.state;
+
       // run function for setting up the start screen emotions
       const createdEmotions = CreateEmotions(userData.colors);
-      // add emotions to state
 
       this.setState({ emotions: createdEmotions });
     });
@@ -35,7 +41,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { splash, colorGradientOpen, emotions } = this.state;
+    const { splash, colorGradientOpen, emotions, hello } = this.state;
     if (colorGradientOpen) {
       return <ColorGradientStats />;
     }
@@ -53,6 +59,7 @@ class App extends React.Component {
               key="startScreen"
               emotions={emotions}
               name={this.state.userData.name}
+              randomHelloPhrase={hello}
             />
             <WordCloud2 />
           </div>
