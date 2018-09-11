@@ -157,7 +157,6 @@ class StartScreen extends React.Component {
     const {
       emotions,
       colors,
-      user,
       pickedByUser,
       addNewEmotionOpen,
       newEmotionPreview,
