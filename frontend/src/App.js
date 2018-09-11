@@ -4,9 +4,9 @@ import 'normalize.css';
 import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
-import ColorGradientStats from './components/stats/ColorGradientStats';
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
+import ColorGradientStats from './components/stats/ColorGradientStats';
 
 class App extends React.Component {
   state = {
