@@ -22,16 +22,39 @@ app.use(cors());
 /* 
         Documentation
 
-        GET /userdata with        req.query.id as userid, gets all data for that user
-        GET /userdatabydate       emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
-        POST /newuser    with     req.body.data as first emotion array
-        PATCH /updateuserdata     (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
-        POST /updateuserdata      (for new data for that day) req.body.data as emotion array req.body.id as userid
-        PATCH /updateusercolor    TODO
+        GET /userdata with            req.query.id as userid, gets all data for that user
+        GET /userdatabydate           emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
+        GET /userdatabydatewithcolor  emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend) with corresponding color
+        POST /newuser    with         req.body.data as first emotion array
+        PATCH /updateuserdata         (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
+        POST /updateuserdata          (for new data for that day) req.body.data as emotion array req.body.id as userid
+        PATCH /updateusercolor        req.body.id and req.body.data, for updating the colors for a user
 
 */
 
 
+app.get('/hello', async (req, res, err) => {
+  const date = new Date();
+  const hours = date.getHours();
+  
+  const helloPhrases = ["God Morgon", "Hej på morgonen","God middag","Fyll array please!","","","",""];  // ------------------TODO (fyll array med fraser)--------------------------------------
+  const random = Math.floor(Math.random()*2);
+  if(hours>=4 && hours<10){
+    const newHelloArray = helloPhrases.slice(0, 2)
+    res.send([newHelloArray[random]])
+  }else if(hours>=10 && hours<16){
+   const newHelloArray= helloPhrases.slice(2, 4)
+    res.send([newHelloArray[random]])
+  }else if(hours>=16 && hours<22){
+    const newHelloArray= helloPhrases.slice(4, 6)
+    res.send([newHelloArray[random]])
+  }else if(hours>=22 && hours<4){
+    const newHelloArray= helloPhrases.slice(6, 8)
+    res.send([newHelloArray[random]])
+  }
+  
+  
+})
 // GET userdata req.query.id  
 app.get('/userdata', async (req, res, err) => {
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
@@ -134,17 +157,17 @@ app.get('/userdatabydatewithcolor', (req, res, err) => {
       return accumulatedObject;
       
     },{})
-    let keys = Object.keys(result);
+    
 
-    for(let i = 0; i<keys.length; i++){
-      for(let j = 0; j<color.length; j++){
+
+    Object.keys(result).forEach((i) =>{
+      Object.keys(color).forEach((j) =>{
         let hej = color[j][Object.keys(color[j])];
-        if(hej.includes(keys[i])){
-          result[keys[i]].push(Object.keys(color[j])[0])
+        if(hej.includes(i)){
+          result[i].push(Object.keys(color[j])[0])
         }
-      }
-      
-    }
+      })
+    })
 
     res.send(result);
 
@@ -217,19 +240,11 @@ app.patch('/updateuserdata', async (req, res, err) => {
 
 
     app.patch('/updateusercolor', async (req, res, err) => {
-  
-      console.log(req.body.data);
-      let date = await new Date()
-    
-      date.setHours(0,0,0,0);
-    console.log(date);
-    
     
       MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
         assert.equal(null, err);
         const collection = client.db("users").collection("userdata");
-        collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{"colors":req.body.data },{returnOriginal: false},function(err,result){
-          console.log(result);
+        collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{$set:{"colors":req.body.data }},{returnOriginal: false},function(err,result){
           if(result.lastErrorObject.updatedExisting){
             res.send(result);
           }else{
@@ -252,7 +267,7 @@ app.get('/posttestdata', async (req, res, error) => {
   
   let random = Math.floor(Math.random()*30)+1;
   let randomM = Math.floor(Math.random()*11);
-  let randomY = Math.floor(Math.random()*3)+2016;
+  let randomY = 2018 //Math.floor(Math.random()*3)+2016;
   let emotionArray = ["Arg","Exhalterad","Glad","Trevlig","Social","Trött","Kaffesugen","Nedstämd","Harmonisk","Kärleksfylld","Orolig","Stressad","Sprallig","JavaScriptig","Intelligent","Nyfiken","Rädd","Snygg","Äcklig"]
   let emotion = [];
   let randomIteration = (Math.floor(Math.random()*5)+1);
