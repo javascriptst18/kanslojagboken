@@ -4,6 +4,7 @@ import 'normalize.css';
 import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
+import WordCloud2 from './components/WordCloud';
 import ColorGradientStats from './components/stats/ColorGradientStats';
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
@@ -79,6 +80,7 @@ class App extends React.Component {
               name={userData.name}
               randomHelloPhrase={hello}
             />
+            <WordCloud2 />
           </div>
         </div>
       );
