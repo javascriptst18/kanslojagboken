@@ -22,10 +22,11 @@ app.use(cors());
 /* 
         Documentation
 
+        GET /hello                    to get a hello phrase dependent on time of day
         GET /userdata with            req.query.id as userid, gets all data for that user
         GET /userdatabydate           emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
         GET /userdatabydatewithcolor  emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend) with corresponding color
-        POST /newuser    with         req.body.data as first emotion array
+        POST /newuser                 req.body.data as first emotion array   -----------EDIT REQUIRED-------------
         PATCH /updateuserdata         (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
         POST /updateuserdata          (for new data for that day) req.body.data as emotion array req.body.id as userid
         PATCH /updateusercolor        req.body.id and req.body.data, for updating the colors for a user
@@ -36,22 +37,34 @@ app.use(cors());
 app.get('/hello', async (req, res, err) => {
   const date = new Date();
   const hours = date.getHours();
+
+  MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
+    assert.equal(null, err);
+    const collection = client.db("storage").collection("helloPhrases");
+    let result = await collection.findOne(ObjectId("5b9790acc0f58e78ec432a2b"))
+    result = result.helloPhrase
+    
+    const random = Math.floor(Math.random()*2);
+    if(hours>=4 && hours<10){
+      const newHelloArray = result.slice(0, 2)
+      res.send([newHelloArray[random]])
+    }else if(hours>=10 && hours<16){
+     const newHelloArray= result.slice(2, 4)
+      res.send([newHelloArray[random]])
+    }else if(hours>=16 && hours<22){
+      const newHelloArray= result.slice(4, 6)
+      res.send([newHelloArray[random]])
+    }else if(hours>=22 && hours<4){
+      const newHelloArray= result.slice(6, 8)
+      res.send([newHelloArray[random]])
+    }
+
+  client.close();
+  });
   
-  const helloPhrases = ["God Morgon", "Hej på morgonen","God middag","Fyll array please!","","","",""];  // ------------------TODO (fyll array med fraser)--------------------------------------
-  const random = Math.floor(Math.random()*2);
-  if(hours>=4 && hours<10){
-    const newHelloArray = helloPhrases.slice(0, 2)
-    res.send([newHelloArray[random]])
-  }else if(hours>=10 && hours<16){
-   const newHelloArray= helloPhrases.slice(2, 4)
-    res.send([newHelloArray[random]])
-  }else if(hours>=16 && hours<22){
-    const newHelloArray= helloPhrases.slice(4, 6)
-    res.send([newHelloArray[random]])
-  }else if(hours>=22 && hours<4){
-    const newHelloArray= helloPhrases.slice(6, 8)
-    res.send([newHelloArray[random]])
-  }
+  
+
+  
   
   
 })
