@@ -4,6 +4,8 @@ import AddNewEmotionDialogue from './AddNewEmotionDialogue';
 import AddNewEmotionButtons from './AddNewEmotionButtons';
 import EmotionFilters from './EmotionFilters';
 import PickedByUserOutput from './PickedByUserOutput';
+import NextButton from './NextButton';
+import { postFetchData, patchFetchData } from './functions/fetchFunctions';
 import './css/StartScreen.css';
 
 // function for outputting the start screen of the app
@@ -152,6 +154,21 @@ class StartScreen extends React.Component {
     }
   };
 
+  onSendDailyData = async () => {
+    const { pickedByUser } = this.state;
+    const data = [...pickedByUser];
+
+    const result = data.reduce((acc, item) => {
+      acc.push(item.name);
+      return acc;
+    }, []);
+    const body = { data: result, id: '5b912c3f272a825d807bd24f' };
+    let response = await patchFetchData('/updateuserdata', body);
+    if (response === 'error') {
+      response = await postFetchData('/updateuserdata', body);
+    }
+  };
+
   render() {
     // destructuring state
     const {
@@ -221,6 +238,7 @@ class StartScreen extends React.Component {
                 <i className="fas fa-plus" />
                 <span>Skapa ny</span>
               </button>
+              <NextButton onClick={this.onSendDailyData} />
             </div>
           </React.Fragment>
         )}

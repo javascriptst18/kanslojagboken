@@ -38,6 +38,13 @@
   flex-wrap: wrap;
 }
 
+.start-screen .add-emotion-button-wrapper {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  flex-wrap: wrap;
+}
+
 .start-screen .add-emotion-button {
   color: #feffff;
   padding: 12px 20px;

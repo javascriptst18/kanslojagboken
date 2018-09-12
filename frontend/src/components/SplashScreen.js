@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import './css/SplashScreen.css';
 import logo from '../images/kanslojagboken-logo.png';
 import LoadingAnimation from './LoadingAnimation';
