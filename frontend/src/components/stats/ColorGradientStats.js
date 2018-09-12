@@ -130,7 +130,7 @@ class ColorGradientStats extends React.Component {
           }
         }
       }
-      let percentageCounter = 0;
+      let percentageCounter = 0; // Göra flexbox items istället
       for (let j = 0; j < orderedColorArray.length; j += 1) {
         gradient += `${orderedColorArray[j].color} ${percentageCounter}%`;
         if (percentageCounter !== 100) {

@@ -1,9 +1,9 @@
 .lds-default {
-  margin-top: 8em;
+  margin-top: auto;
   display: inline-block;
   position: relative;
   width: 147px;
-  height: auto;
+  height: 40px;
 }
 .lds-default div {
   position: absolute;

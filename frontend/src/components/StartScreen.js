@@ -41,14 +41,14 @@ class StartScreen extends React.Component {
 
   // Code to be run when component loads for the first time
   async componentDidMount() {
-    const { emotions } = this.props;
     // add emotions to state
+    const { emotions } = this.props;
     this.setState({ emotions });
   }
 
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
   handleChecked = (selected, incomingName) => {
-    const { emotions, pickedByUser } = this.state;
+    const { pickedByUser, emotions } = this.state;
     // If the user has selected something...
     if (selected) {
       // Filter out what the user has selected from the list of emotions...
