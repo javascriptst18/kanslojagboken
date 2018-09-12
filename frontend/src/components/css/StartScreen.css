@@ -33,7 +33,7 @@
 
 .start-screen .add-emotion-button-wrapper {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
