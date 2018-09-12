@@ -5,12 +5,13 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  flex-direction: column;
 }
 
 .splash-screen img {
-  width: auto;
-  max-height: 90%;
-  max-width: 90%;
+  width: 550px;
+  max-width: 80%;
+  height: auto;
   display: block;
   margin: 0 auto;
 }
