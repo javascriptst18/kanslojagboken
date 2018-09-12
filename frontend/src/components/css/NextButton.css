@@ -16,6 +16,11 @@
   padding: 0px 10px;
 }
 
+.next-button:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
 .next-button:hover .next-button-arrow {
   -moz-animation: bounce 1s infinite;
   -webkit-animation: bounce 1s infinite;
