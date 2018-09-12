@@ -205,24 +205,22 @@ app.post("/newuser", async (req, res, err) => {
 
 //PATCH update userdata, req.body.id as identifier, req.body.data as new data
 
-app.patch("/updateuserdata", async (req, res, err) => {
-  let date = await new Date().setHours(0, 0, 0, 0);
-
-  app.patch("/updateuserdata", async (req, res, err) => {
+  app.patch("/updateuserdata", async (req, res, errors) => {
     let date = await new Date();
     date.setHours(0, 0, 0, 0);
-
+console.log("haj");
     MongoClient.connect(
       uri,
       { useNewUrlParser: true },
-      async function(err, client) {
-        assert.equal(null, err);
+      async function(error, client) {
+        assert.equal(null, error);
         const collection = client.db("users").collection("userdata");
         collection.findOneAndUpdate({ $and: [{ _id: ObjectId(req.body.id) }, { "emotionData.date": date }] }, { $set: { "emotionData.$.emotions": req.body.data } }, { returnOriginal: false }, function(err, result) {
+          console.log(result.lastErrorObject.updatedExisting);
           if (result.lastErrorObject.updatedExisting) {
             res.send(result);
           } else {
-            res.send("error");
+            res.send(JSON.stringify("error"))
           }
         });
         client.close();
@@ -230,32 +228,12 @@ app.patch("/updateuserdata", async (req, res, err) => {
     );
   });
 
-  app.post("/updateuserdata", async (req, res, err) => {
-    let date = await new Date();
-    date.setHours(0, 0, 0, 0);
-    let objEmotionData = { date: date, emotions: req.body.data };
-
-    MongoClient.connect(
-      uri,
-      { useNewUrlParser: true },
-      async function(err, client) {
-        assert.equal(null, err);
-        const collection = client.db("users").collection("userdata");
-        collection.findOneAndUpdate({ $and: [{ _id: ObjectId(req.body.id) }, { "emotionData.date": date }] }, { $set: { "emotionData.$.emotions": req.body.data } }, { returnOriginal: false }, function(err, result) {
-          if (result.lastErrorObject.updatedExisting) {
-            res.send(result);
-          } else {
-            res.send("error");
-          }
-        });
-        client.close();
-      }
-    );
-  });
 
   app.post("/updateuserdata", async (req, res, err) => {
+    console.log("hej");
     let incoming = req.body.data;
-    let date = await new Date().setHours(0, 0, 0, 0);
+    let date = await new Date();
+    date.setHours(0, 0, 0, 0);
     let objEmotionData = { date: date, emotions: incoming };
 
     MongoClient.connect(
@@ -332,26 +310,6 @@ app.get('/posttestdata', async (req, res, error) => {
 
   });
 
-  date.setHours(0, 0, 0, 0);
-  console.log(date);
 
-  MongoClient.connect(
-    uri,
-    { useNewUrlParser: true },
-    async function(err, client) {
-      assert.equal(null, err);
-      const collection = client.db("users").collection("userdata");
-      collection.findOneAndUpdate({ $and: [{ _id: ObjectId(req.body.id) }, { "emotionData.date": date }] }, { $set: { "emotionData.$.emotions": req.body.data } }, { returnOriginal: false }, function(err, result) {
-        if (result.lastErrorObject.updatedExisting) {
-          res.send(result);
-        } else {
-          res.send("error");
-        }
-      });
-
-      client.close();
-    }
-  );
-});
 
 app.listen(PORT);
