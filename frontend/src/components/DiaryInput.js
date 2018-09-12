@@ -35,21 +35,23 @@ class DiaryInput extends React.Component {
   render() {
     const { diary } = this.state;
     return (
-      <div className="diary-input-container">
-        <form>
-          <label htmlFor="diary-input">Enter a journal post</label>
-          <input
-            className="diary-input"
-            name="diary-input"
-            id="diary-input"
-            type="text"
-            placeholder="Vill du tillägga något?"
-            onChange={this.onChange}
-            value={diary}
-          />
-
-          <NextButton onClick={this.saveDiary} />
-        </form>
+      <div className="diary-input-wrapper">
+        <div className="diary-input-container">
+          <span>Vill du tillägga något?</span>
+          <form>
+            <label htmlFor="diary-input">Enter a journal post</label>
+            <input
+              className="diary-input"
+              name="diary-input"
+              id="diary-input"
+              type="text"
+              placeholder="Skriv här"
+              onChange={this.onChange}
+              value={diary}
+            />
+          </form>
+        </div>
+        <NextButton onClick={this.saveDiary} />
       </div>
     );
   }

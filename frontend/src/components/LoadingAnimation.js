@@ -3,15 +3,15 @@ import './css/LoadingAnimation.css';
 
 function LoadingAnimation() {
   return (
-    <div className="spinner">
-      <i />
-      <i />
-      <i />
-      <i />
-      <i />
-      <i />
-      <i />
-      <i />
+    <div className="lds-default">
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
     </div>
   );
 }
