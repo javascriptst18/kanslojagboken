@@ -14,7 +14,19 @@ class App extends React.Component {
     splash: true,
     colorGradientOpen: false,
     hello: '',
+    firstVisitToday: true,
+    userData: '',
   };
+
+  async componentWillMount() {
+    const visited = await localStorage.getItem('visitToday');
+    const date = new Date().setHours(0, 0, 0, 0).toString();
+    if (visited === date) {
+      this.setState({ firstVisitToday: false });
+    } else {
+      localStorage.setItem('visitToday', date);
+    }
+  }
 
   async componentDidMount() {
     // Code to be run when component loads for the first time
@@ -40,7 +52,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { splash, colorGradientOpen, emotions, hello } = this.state;
+    const { splash, colorGradientOpen, emotions, hello, userData } = this.state;
     if (colorGradientOpen) {
       return <ColorGradientStats />;
     }
@@ -57,7 +69,7 @@ class App extends React.Component {
             <StartScreen
               key="startScreen"
               emotions={emotions}
-              name={this.state.userData.name}
+              name={userData.name}
               randomHelloPhrase={hello}
             />
           </div>

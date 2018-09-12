@@ -83,14 +83,14 @@ app.get('/userdata', async (req, res, err) => {
 
 // GET emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
 app.get('/userdatabydate', (req, res, err) => {
-  let startYear = req.query.datestart.substr(0,4);
-  let startMonth = req.query.datestart.substr(4,2);
-  let startDay = req.query.datestart.substr(6,2);
-  let start = new Date(startYear,startMonth-1,startDay)
-  let endYear = req.query.dateend.substr(0,4);
-  let endMonth = req.query.dateend.substr(4,2);
-  let endDay = req.query.dateend.substr(6,2);
-  let end = new Date(endYear,endMonth-1,endDay)
+  const startYear = req.query.datestart.substr(0,4);
+  const startMonth = req.query.datestart.substr(4,2);
+  const startDay = req.query.datestart.substr(6,2);
+  const start = new Date(startYear,startMonth-1,startDay)
+  const endYear = req.query.dateend.substr(0,4);
+  const endMonth = req.query.dateend.substr(4,2);
+  const endDay = req.query.dateend.substr(6,2);
+  const end = new Date(endYear,endMonth-1,endDay)
   
   
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
@@ -129,14 +129,14 @@ app.get('/userdatabydate', (req, res, err) => {
 
 // GET emotion freq within timeperiod, req.query.id and (ex: 20180702 as req.query.datestart and 20180830 as req.query.dateend)
 app.get('/userdatabydatewithcolor', (req, res, err) => {
-  let startYear = req.query.datestart.substr(0,4);
-  let startMonth = req.query.datestart.substr(4,2);
-  let startDay = req.query.datestart.substr(6,2);
-  let start = new Date(startYear,startMonth-1,startDay)
-  let endYear = req.query.dateend.substr(0,4);
-  let endMonth = req.query.dateend.substr(4,2);
-  let endDay = req.query.dateend.substr(6,2);
-  let end = new Date(endYear,endMonth-1,endDay)
+  const startYear = req.query.datestart.substr(0,4);
+  const startMonth = req.query.datestart.substr(4,2);
+  const startDay = req.query.datestart.substr(6,2);
+  const start = new Date(startYear,startMonth-1,startDay)
+  const endYear = req.query.dateend.substr(0,4);
+  const endMonth = req.query.dateend.substr(4,2);
+  const endDay = req.query.dateend.substr(6,2);
+  const end = new Date(endYear,endMonth-1,endDay)
   
   
   MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
