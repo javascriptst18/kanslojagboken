@@ -27,6 +27,11 @@ class WordCloud2 extends React.Component {
     );
   }
 
+  componentDidUpdate() {
+    const { returnFunction } = this.props;
+    returnFunction(true);
+  }
+
   // What happens when you click a word
   onWordClick = () => {
     console.log('helluuu');
@@ -119,7 +124,7 @@ class WordCloud2 extends React.Component {
 }
 
 // Rotating emotions horizontally and vertically (in same direction)
-const rotate = () => (Math.floor(Math.random() * 2) % 2 === 1 ? 90 : 0);
+// const rotate = () => (Math.floor(Math.random() * 2) % 2 === 1 ? 90 : 0);
 
 export default WordCloud2;
 
