@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+
 // import WordCloud from 'react-d3-cloud';
 import WordCloud from './TheWordCloudBase';
 
