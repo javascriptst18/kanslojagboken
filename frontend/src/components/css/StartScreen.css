@@ -33,16 +33,19 @@
 
 .start-screen .add-emotion-button-wrapper {
   display: flex;
-  justify-content: right;
-  align-items: right;
+  justify-content: space-evenly;
+  align-items: center;
   flex-wrap: wrap;
 }
-
-.start-screen .add-emotion-button-wrapper {
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  flex-wrap: wrap;
+.add-emotion-button-wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+@media (max-width: 600px) {
+  .add-emotion-button-wrapper {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 .start-screen .add-emotion-button {
@@ -65,7 +68,6 @@
 
 .add-emotion-button.trigger-add {
   background-color: #7daf95;
-  margin-left: auto;
 }
 
 .add-emotion-button.skip {

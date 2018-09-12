@@ -206,9 +206,9 @@ app.post("/newuser", async (req, res, err) => {
 //PATCH update userdata, req.body.id as identifier, req.body.data as new data
 
   app.patch("/updateuserdata", async (req, res, errors) => {
-    let date = await new Date();
+    let date = await new Date(2019,01,01);
     date.setHours(0, 0, 0, 0);
-console.log("haj");
+
     MongoClient.connect(
       uri,
       { useNewUrlParser: true },
@@ -230,9 +230,9 @@ console.log("haj");
 
 
   app.post("/updateuserdata", async (req, res, err) => {
-    console.log("hej");
+    
     let incoming = req.body.data;
-    let date = await new Date();
+    let date = await new Date(2019,01,01);
     date.setHours(0, 0, 0, 0);
     let objEmotionData = { date: date, emotions: incoming };
 
