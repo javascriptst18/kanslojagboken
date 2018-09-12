@@ -4,7 +4,7 @@ import 'normalize.css';
 import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
-import ColorGradientStats from './components/stats/ColorGradientStats';
+import StatsScreen from './components/StatsScreen';
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
 
@@ -12,7 +12,8 @@ class App extends React.Component {
   state = {
     emotions: [],
     splash: true,
-    colorGradientOpen: false,
+    startScreen: false,
+    statsScreen: false,
     hello: '',
     firstVisitToday: true,
     userData: '',
@@ -32,7 +33,7 @@ class App extends React.Component {
     // Code to be run when component loads for the first time
 
     const randomHello = await getFetch('./hello');
-    console.log(randomHello);
+
     this.setState({ hello: randomHello[0] });
 
     const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
@@ -47,24 +48,42 @@ class App extends React.Component {
     });
     setTimeout(() => {
       // set a timeout on load for how the long the splash screen should be visible
-      this.setState({ splash: false });
+      this.setState({
+        splash: false,
+        startScreen: true,
+      });
     }, 1300);
   }
 
-  render() {
-    const { splash, colorGradientOpen, emotions, hello, userData } = this.state;
-    if (colorGradientOpen) {
-      return <ColorGradientStats />;
+  toggleMenu = (e) => {
+    if (e.target.dataset.menuitem === 'start') {
+      this.setState({
+        startScreen: true,
+        statsScreen: false,
+      });
+    } else {
+      this.setState({
+        startScreen: false,
+        statsScreen: true,
+      });
     }
-    return (
-      <ReactCSSTransitionReplace
-        transitionName="cross-fade"
-        transitionEnterTimeout={800}
-        transitionLeaveTimeout={800}
-      >
-        {splash ? (
-          <SplashScreen key="splashScreen" />
-        ) : (
+  };
+
+  render() {
+    const {
+      splash,
+      startScreen,
+      statsScreen,
+      emotions,
+      userData,
+      hello,
+    } = this.state;
+    let whatToRender = '';
+    if (splash) {
+      whatToRender = <SplashScreen key="splashScreen" />;
+    } else if (startScreen) {
+      whatToRender = (
+        <div className="page-wrapper">
           <div className="App">
             <StartScreen
               key="startScreen"
@@ -73,8 +92,47 @@ class App extends React.Component {
               randomHelloPhrase={hello}
             />
           </div>
+        </div>
+      );
+    } else {
+      whatToRender = (
+        <div className="page-wrapper">
+          <div className="App">
+            <StatsScreen key="statsScreen" emotions={emotions} />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <React.Fragment>
+        {!splash && (
+          <nav className="top-menu">
+            <button
+              type="button"
+              className={`menu-button${startScreen ? ' current-page' : ''}`}
+              data-menuitem="start"
+              onClick={this.toggleMenu}
+            >
+              Skriv i Jagboken
+            </button>
+            <button
+              type="button"
+              className={`menu-button${statsScreen ? ' current-page' : ''}`}
+              data-menuitem="stats"
+              onClick={this.toggleMenu}
+            >
+              Överblick
+            </button>
+          </nav>
         )}
-      </ReactCSSTransitionReplace>
+        <ReactCSSTransitionReplace
+          transitionName="cross-fade"
+          transitionEnterTimeout={800}
+          transitionLeaveTimeout={800}
+        >
+          {whatToRender}
+        </ReactCSSTransitionReplace>
+      </React.Fragment>
     );
   }
 }
