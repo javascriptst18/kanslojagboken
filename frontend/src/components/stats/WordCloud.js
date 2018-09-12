@@ -10,13 +10,9 @@ class WordCloud2 extends React.Component {
   };
 
   async componentDidMount() {
-    const result = await fetch(
-      '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
-    );
-    const response = await result.json();
     this.setState(
       {
-        emotions: response,
+        emotions: this.props.freqData,
       },
       () => {
         const { emotions } = this.state;

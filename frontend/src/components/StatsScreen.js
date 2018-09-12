@@ -15,7 +15,7 @@ class StatsScreen extends PureComponent {
   };
 
   render() {
-    const { emotions } = this.props;
+    const { emotions, freqData } = this.props;
     const { wordCloudOpen, colorGradientOpen, wordsMounted } = this.state;
     return (
       <div className="stats-screen">
@@ -24,7 +24,10 @@ class StatsScreen extends PureComponent {
         </div>
         {wordCloudOpen && (
           <div className={`word-cloud-wrapper${wordsMounted && ' generated'}`}>
-            <WordCloud2 returnFunction={this.setWordsMounted} />
+            <WordCloud2
+              returnFunction={this.setWordsMounted}
+              freqData={freqData}
+            />
           </div>
         )}
         {colorGradientOpen && (
