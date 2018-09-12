@@ -15,7 +15,19 @@ class App extends React.Component {
     startScreen: false,
     statsScreen: false,
     hello: '',
+    firstVisitToday: true,
+    userData: '',
   };
+
+  async componentWillMount() {
+    const visited = await localStorage.getItem('visitToday');
+    const date = new Date().setHours(0, 0, 0, 0).toString();
+    if (visited === date) {
+      this.setState({ firstVisitToday: false });
+    } else {
+      localStorage.setItem('visitToday', date);
+    }
+  }
 
   async componentDidMount() {
     // Code to be run when component loads for the first time
@@ -34,6 +46,10 @@ class App extends React.Component {
 
       this.setState({ emotions: createdEmotions });
     });
+    const freqData = await getFetch(
+      '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
+    );
+    this.setState({ freqData });
     setTimeout(() => {
       // set a timeout on load for how the long the splash screen should be visible
       this.setState({
@@ -65,6 +81,7 @@ class App extends React.Component {
       emotions,
       userData,
       hello,
+      freqData,
     } = this.state;
     let whatToRender = '';
     if (splash) {
@@ -86,7 +103,11 @@ class App extends React.Component {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <StatsScreen key="statsScreen" emotions={emotions} />
+            <StatsScreen
+              key="statsScreen"
+              emotions={emotions}
+              freqData={freqData}
+            />
           </div>
         </div>
       );
