@@ -5,6 +5,7 @@ button.emotion-list-item {
   border: none;
   border-radius: 5px;
   margin: 16px 16px 0 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 button.emotion-list-item:hover,

@@ -14,6 +14,20 @@ class StatsScreen extends PureComponent {
     this.setState({ wordsMounted: true });
   };
 
+  toggleStats = (e) => {
+    if (e.target.dataset.statsitem === 'wordcloud') {
+      this.setState({
+        wordCloudOpen: true,
+        colorGradientOpen: false,
+      });
+    } else {
+      this.setState({
+        wordCloudOpen: false,
+        colorGradientOpen: true,
+      });
+    }
+  };
+
   render() {
     const { emotions, freqData } = this.props;
     const { wordCloudOpen, colorGradientOpen, wordsMounted } = this.state;
@@ -21,6 +35,20 @@ class StatsScreen extends PureComponent {
       <div className="stats-screen">
         <div className="headline-container">
           <h2>Utforska din statistik</h2>
+          <button
+            type="button"
+            data-statsitem="wordcloud"
+            onClick={this.toggleStats}
+          >
+            Känslomoln
+          </button>
+          <button
+            type="button"
+            data-statsitem="colorgradient"
+            onClick={this.toggleStats}
+          >
+            Färgkarta
+          </button>
         </div>
         {wordCloudOpen && (
           <div className={`word-cloud-wrapper${wordsMounted && ' generated'}`}>

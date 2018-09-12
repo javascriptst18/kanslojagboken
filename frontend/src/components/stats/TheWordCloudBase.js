@@ -12,8 +12,8 @@ const defaultFontSizeMapper = (word) => Math.log2(word.value) * 20;
 
 class WordCloud extends Component {
   static defaultProps = {
-    width: 550,
-    height: 550,
+    width: 510,
+    height: 510,
     padding: 5,
     font: 'serif',
     fontSizeMapper: defaultFontSizeMapper,
@@ -55,7 +55,7 @@ class WordCloud extends Component {
       .on('end', (words) => {
         select(this.wordCloud)
           .append('svg')
-          .attr('viewBox', '0 0 550 550')
+          .attr('viewBox', '0 0 510 510')
           .attr('preserveAspectRatio', 'xMidYMid meet')
           .append('g')
           .attr(
@@ -72,6 +72,7 @@ class WordCloud extends Component {
             console.log('d: ', d);
             return `${d.color}`;
           })
+          .style('text-shadow', '1px 1px 0px rgba(0, 0, 0, 0.3)')
           .attr('text-anchor', 'middle')
           .attr(
             'transform',

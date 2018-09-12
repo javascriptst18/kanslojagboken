@@ -106,8 +106,8 @@ class WordCloud2 extends React.Component {
     const onClick = (word) => this.onWordClick(word);
     return (
       <WordCloud
-        width={550}
-        height={550}
+        width={510}
+        height={510}
         padding={4}
         font="Source Sans Pro"
         data={newData}
