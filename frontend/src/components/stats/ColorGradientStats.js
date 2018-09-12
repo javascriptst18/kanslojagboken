@@ -62,7 +62,7 @@ class ColorGradientStats extends React.Component {
 
   render() {
     const { colorStops } = this.state;
-    let orderedColorArray = [];
+    const orderedColorArray = [];
     let gradient = '';
     if (colorStops.length > 0) {
       for (let i = 0; i < colorStops.length; i += 1) {
@@ -130,19 +130,16 @@ class ColorGradientStats extends React.Component {
           }
         }
       }
+      const arrayWithoutEmptyItems = orderedColorArray.filter(Boolean);
       let percentageCounter = 0; // Göra flexbox items istället
-
-      orderedColorArray = orderedColorArray.filter(Boolean);
-
-      for (let j = 0; j < orderedColorArray.length; j += 1) {
-        gradient += `${orderedColorArray[j].color} ${percentageCounter}%`;
-
-        if (percentageCounter !== 100) {
+      for (let j = 0; j < arrayWithoutEmptyItems.length; j += 1) {
+        gradient += `${arrayWithoutEmptyItems[j].color} ${percentageCounter}%`;
+        if (percentageCounter < 100) {
           gradient += ', ';
         }
-        percentageCounter += orderedColorArray[j].percentage;
-        gradient += `${orderedColorArray[j].color} ${percentageCounter}%`;
-        if (percentageCounter !== 100) {
+        percentageCounter += arrayWithoutEmptyItems[j].percentage;
+        gradient += `${arrayWithoutEmptyItems[j].color} ${percentageCounter}%`;
+        if (percentageCounter < 100) {
           gradient += ', ';
         }
       }
