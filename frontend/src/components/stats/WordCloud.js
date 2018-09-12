@@ -113,7 +113,7 @@ class WordCloud2 extends React.Component {
         data={newData}
         fontSizeMapper={fontSizeMapper}
         rotate={this.randomRotation}
-        onWordClick={onClick}
+        onClick={this.onWordClick}
       />
     );
   }
