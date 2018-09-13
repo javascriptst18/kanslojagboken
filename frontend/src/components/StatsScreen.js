@@ -7,6 +7,7 @@ class StatsScreen extends PureComponent {
   state = {
     wordCloudOpen: true,
     colorGradientOpen: false,
+    fontSizeLarge:false,
   };
 
   toggleStats = (e) => {
@@ -23,9 +24,24 @@ class StatsScreen extends PureComponent {
     }
   };
 
+  changeFontSize = () => {
+    setTimeout(() => {
+      // set a timeout on load for how the long the splash screen should be visible
+      this.setState({
+      fontSizeLarge: true });
+    }, 500);
+  }
+
   render() {
     const { emotions, freqData } = this.props;
-    const { wordCloudOpen, colorGradientOpen } = this.state;
+    const { wordCloudOpen, colorGradientOpen, fontSizeLarge } = this.state;
+    let fontSizeStyles = '';
+    if (fontSizeLarge) {
+      fontSizeStyles = {fontSize:'100px', transition:'font-size 0.5s ease-out'}
+    }
+    else {
+      fontSizeStyles = { fontSize: '0px', transition: 'font-size 0.5s ease-out' }
+    }
     return (
       <div className="stats-screen">
         <div className="headline-container">
@@ -52,8 +68,11 @@ class StatsScreen extends PureComponent {
           </button>
         </div>
         {wordCloudOpen && (
-          <div className="word-cloud-wrapper">
-            <WordCloud2 freqData={freqData} />
+          <div className="word-cloud-wrapper" style={fontSizeStyles}>
+            <WordCloud2 
+            freqData={freqData}
+            returnFunction={this.changeFontSize}
+           />
           </div>
         )}
         {colorGradientOpen && (
