@@ -35,7 +35,7 @@ class StatsScreen extends PureComponent {
   render() {
     const { emotions, freqData } = this.props;
     const { wordCloudOpen, colorGradientOpen, fontSizeLarge } = this.state;
-    let fontSizeStyles = '';
+    let fontSizeStyles = {};
     if (fontSizeLarge) {
       fontSizeStyles = {fontSize:'100px', transition:'font-size 0.5s ease-out'}
     }
