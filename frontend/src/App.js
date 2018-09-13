@@ -9,6 +9,7 @@ import Diary from './components/DiaryInput'
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
 
+
 class App extends React.Component {
   state = {
     emotions: [],
@@ -55,8 +56,20 @@ class App extends React.Component {
     
     const randomHello = await getFetch('./hello');
     this.setState({ hello: randomHello[0] });
+    const now = new Date();
+    const year = now.getFullYear().toString();
+  
+   let month = (now.getMonth() + 1).toString();
+   if (month < 10) {
+     month = `0${month}`;
+   }
+   const day = now.getDate().toString();
+   const startDate = year +"0" + (month-1) + day;
+   const endDate = year + month + day;
+   console.log(startDate + " " + endDate);
+    
     const freqData = await getFetch(
-      '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
+    `/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=${startDate}&dateend=${endDate}`
     );
     this.setState({ freqData });
     
