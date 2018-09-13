@@ -5,6 +5,7 @@ import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 import StatsScreen from './components/StatsScreen';
+import Diary from './components/DiaryInput'
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
 
@@ -14,12 +15,15 @@ class App extends React.Component {
     splash: true,
     startScreen: false,
     statsScreen: false,
+    diary:false,
     hello: '',
     firstVisitToday: true,
     userData: '',
   };
 
   async componentWillMount() {
+
+   
     const visited = await localStorage.getItem('visitToday');
     const date = new Date().setHours(0, 0, 0, 0).toString();
     if (visited === date) {
@@ -31,53 +35,70 @@ class App extends React.Component {
 
   async componentDidMount() {
     // Code to be run when component loads for the first time
-
-    const randomHello = await getFetch('./hello');
-
-    this.setState({ hello: randomHello[0] });
-
-    const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
-
-    this.setState({ userData: data }, async () => {
-      const { userData } = this.state;
-
-      // run function for setting up the start screen emotions
-      const createdEmotions = CreateEmotions(userData.colors);
-
-      this.setState({ emotions: createdEmotions });
-    });
-    const freqData = await getFetch(
-      '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
-    );
-    this.setState({ freqData });
     setTimeout(() => {
       // set a timeout on load for how the long the splash screen should be visible
       this.setState({
         splash: false,
         startScreen: true,
       });
-    }, 1300);
+    }, 2500);
+    
+    const data = await getFetch('./userdata?id=5b912c3f272a825d807bd24f');
+
+    this.setState({ userData: data }, async () => {
+      const { userData } = this.state;
+      // run function for setting up the start screen emotions
+      const createdEmotions = CreateEmotions(userData.colors);
+      this.setState({ emotions: createdEmotions });
+    });
+
+    
+    const randomHello = await getFetch('./hello');
+    this.setState({ hello: randomHello[0] });
+    const freqData = await getFetch(
+      '/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=20180702&dateend=20180830'
+    );
+    this.setState({ freqData });
+    
   }
 
   toggleMenu = (e) => {
-    if (e.target.dataset.menuitem === 'start') {
-      this.setState({
-        startScreen: true,
-        statsScreen: false,
-      });
-    } else {
+    
+    if(e){
+      if (e.target.dataset.menuitem === 'start') {
+        this.setState({
+          startScreen: true,
+          statsScreen: false,
+          dairy:false
+        });
+      }else if (e.target.dataset.menuitem === 'stats') {
+          this.setState({
+            startScreen: false,
+            statsScreen: true,
+            dairy:false,
+          }); 
+      
+    } else if(e.target.name==="moveOn"){
       this.setState({
         startScreen: false,
-        statsScreen: true,
+        statsScreen: false,
+        diary:true
       });
     }
-  };
-
+  }else{
+    this.setState({
+      startScreen: false,
+      statsScreen: true,
+      diary:false
+    });
+  }
+  }
   render() {
     const {
       splash,
       startScreen,
       statsScreen,
+      diary,
       emotions,
       userData,
       hello,
@@ -90,24 +111,23 @@ class App extends React.Component {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <StartScreen
-              key="startScreen"
-              emotions={emotions}
-              name={userData.name}
-              randomHelloPhrase={hello}
-            />
+            <StartScreen key="startScreen" emotions={emotions} name={userData.name} randomHelloPhrase={hello} toggleMenu={this.toggleMenu}/>
           </div>
         </div>
       );
-    } else {
+    } else if(diary){
+      whatToRender = (
+      <div className="page-wrapper">
+          <div className="App">
+            <Diary key="diary" toggleMenu={this.toggleMenu}/>
+          </div>
+        </div>
+      )
+    }else {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <StatsScreen
-              key="statsScreen"
-              emotions={emotions}
-              freqData={freqData}
-            />
+            <StatsScreen key="statsScreen" emotions={emotions} freqData={freqData} />
           </div>
         </div>
       );

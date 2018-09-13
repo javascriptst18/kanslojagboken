@@ -30,6 +30,8 @@ app.use(cors());
         PATCH /updateuserdata         (for updating data) try this first on error try the next, req.body.data as emotion array req.body.id as userid
         POST /updateuserdata          (for new data for that day) req.body.data as emotion array req.body.id as userid
         PATCH /updateusercolor        req.body.id and req.body.data, for updating the colors for a user
+        PATCH /savediary              req.body.id and req.body.data, updates dairy if post for that date exist
+        POST /savediary               req.body.id and req.body.data, post dairy if no post for that date exist
 
 */
 
@@ -204,9 +206,8 @@ app.post("/newuser", async (req, res, err) => {
 });
 
 //PATCH update userdata, req.body.id as identifier, req.body.data as new data
-
   app.patch("/updateuserdata", async (req, res, errors) => {
-    let date = await new Date(2019,01,01);
+    let date = await new Date();
     date.setHours(0, 0, 0, 0);
 
     MongoClient.connect(
@@ -229,10 +230,11 @@ app.post("/newuser", async (req, res, err) => {
   });
 
 
+
   app.post("/updateuserdata", async (req, res, err) => {
     
     let incoming = req.body.data;
-    let date = await new Date(2019,01,01);
+    let date = await new Date();
     date.setHours(0, 0, 0, 0);
     let objEmotionData = { date: date, emotions: incoming };
 
@@ -271,7 +273,53 @@ app.post("/newuser", async (req, res, err) => {
       });
     
 
-
+      app.patch("/savediary", async (req, res, errors) => {
+        let date = await new Date();
+        date.setHours(0, 0, 0, 0);
+    console.log(req.body);
+        MongoClient.connect(
+          uri,
+          { useNewUrlParser: true },
+          async function(error, client) {
+            assert.equal(null, error);
+            const collection = client.db("users").collection("userdata");
+            collection.findOneAndUpdate({ $and: [{ _id: ObjectId(req.body.id) }, { "emotionData.date": date }] }, { $set: { "emotionData.$.diary": req.body.data } }, { returnOriginal: false }, function(err, result) {
+              console.log(result.lastErrorObject.updatedExisting);
+              if (result.lastErrorObject.updatedExisting) {
+                res.send(result);
+              } else {
+                res.send(JSON.stringify("error"))
+              }
+            });
+            client.close();
+          }
+        );
+      });
+    
+    
+    
+      app.post("/savediary", async (req, res, err) => {
+        
+        let incoming = req.body.data;
+        let date = await new Date();
+        date.setHours(0, 0, 0, 0);
+        let objEmotionData = { date: date, diary: incoming };
+    
+        MongoClient.connect(
+          uri,
+          { useNewUrlParser: true },
+          async function(err, client) {
+            assert.equal(null, err);
+            const collection = client.db("users").collection("userdata");
+            collection.findOneAndUpdate({ _id: ObjectId(req.body.id) }, { $push: { emotionData: objEmotionData } }, { returnOriginal: false }, function(err, result) {
+              res.send(result);
+            });
+            client.close();
+    
+          })
+        
+        
+        });
 
 //-------------------------------------------------------Script to insert test data ----------------------------------------------------------------
 
@@ -280,7 +328,7 @@ app.get('/posttestdata', async (req, res, error) => {
   let random = Math.floor(Math.random()*30)+1;
   let randomM = Math.floor(Math.random()*11);
   let randomY = 2018 //Math.floor(Math.random()*3)+2016;
-  let emotionArray = ["Arg","Exhalterad","Glad","Trevlig","Social","Trött","Kaffesugen","Nedstämd","Harmonisk","Kärleksfylld","Orolig","Stressad","Sprallig","JavaScriptig","Intelligent","Nyfiken","Rädd","Snygg","Äcklig"]
+  let emotionArray = ["Arg","Exalterad","Glad","Trevlig","Social","Trött","Kaffesugen","Nedstämd","Harmonisk","Kärleksfylld","Orolig","Stressad","Sprallig","JavaScriptig","Intelligent","Nyfiken","Rädd","Snygg","Äcklig","Harmonisk","Kärleksfylld","Sprallig","JavaScriptig","Exalterad","Harmonisk"]
   let emotion = [];
   let randomIteration = (Math.floor(Math.random()*5)+1);
   for(let i = 0; i<randomIteration; i++){

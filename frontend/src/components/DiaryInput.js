@@ -13,43 +13,39 @@ class DiaryInput extends React.Component {
   };
 
   saveDiary = (event) => {
+    
+    this.props.toggleMenu();
     const { diary } = this.state;
     event.preventDefault();
     // Detta är bara en placeholder för vilken route vi nu kommer ha till databasen
-    fetch('/savediary', {
-      method: 'POST',
-      // credentials: "same-origin",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ diary }),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        this.setState({ diary: '' });
-        console.log('success!');
+    if(diary){
+     const body={id:"5b912c3f272a825d807bd24f",data:diary}
+      fetch('/savediary', {
+        method: 'PATCH',
+        // credentials: "same-origin",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
       })
-      .catch((error) => {
-        console.log(error);
-      });
+    }
+    
   };
 
   render() {
     const { diary } = this.state;
+    
     return (
       <div className="diary-input-wrapper">
         <div className="diary-input-container">
           <span>Vill du skriva en anteckning?</span>
-          <form>
             <label htmlFor="diary-input">Skriv en anteckning</label>
-            <input
-              className="diary-input"
+            <textarea style={{height:"100%"}}className="diary-input"
               name="diary-input"
               id="diary-input"
               type="text"
               placeholder="Din anteckning..."
               onChange={this.onChange}
-              value={diary}
-            />
-          </form>
+              value={diary}>
+          </textarea>
         </div>
         <NextButton onClick={this.saveDiary} />
       </div>
