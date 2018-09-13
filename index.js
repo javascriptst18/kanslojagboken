@@ -256,11 +256,60 @@ app.post("/newuser", async (req, res, err) => {
 
 
     app.patch('/updateusercolor', async (req, res, err) => {
-    
+
+  let colorNumber= "";
+  let colorName= "";
+
+      switch (req.body.data.color) {
+        case 'red':
+          colorNumber = 0;
+          colorName = "red"
+          break;
+
+        case 'green':
+          colorNumber = 1;
+          colorName = "green"
+          break;
+
+        case 'blue':
+          colorNumber = 2;
+          colorName = "blue"
+          break;
+
+        case 'orange':
+          colorNumber = 3;
+          colorName = "orange"
+          break;
+
+        case 'yellow':
+          colorNumber = 4;
+          colorName = "yellow"
+          break;
+
+        case 'pink':
+          colorNumber = 5;
+          colorName = "pink"
+          break;
+
+        case 'turquoise':
+          colorNumber = 6;
+          colorName = "turquoise"
+          break;
+
+        case 'purple':
+          colorNumber = 7;
+          colorName = "purple"
+          break;
+        
+        default: break;
+      }
+      const key = `colors.${colorNumber}.${colorName}`
+      console.log(key);
+    if(colorNumber !== ""){
       MongoClient.connect(uri,{ useNewUrlParser: true },async function(err, client) {
         assert.equal(null, err);
         const collection = client.db("users").collection("userdata");
-        collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{$set:{"colors":req.body.data }},{returnOriginal: false},function(err,result){
+        collection.findOneAndUpdate({"_id": ObjectId(req.body.id)},{$push:{[key]:req.body.data.name }},{returnOriginal: false},function(err,result){
           if(result.lastErrorObject.updatedExisting){
             res.send(result);
           }
@@ -269,6 +318,8 @@ app.post("/newuser", async (req, res, err) => {
         
           client.close();
         })
+    }
+      
       
       });
     

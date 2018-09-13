@@ -97,7 +97,7 @@ class StartScreen extends React.Component {
   };
 
   // Function for saving new emotions
-  saveEmotion = () => {
+   saveEmotion = async () => {
     const { newEmotionPreview, pickedByUser } = this.state;
     this.setState({
       pickedByUser: [...pickedByUser, newEmotionPreview], // select the preview object and add it to the pickedByUser array
@@ -109,6 +109,8 @@ class StartScreen extends React.Component {
       addNewEmotionOpen: false, // close the add new emotion dialogue...
       filtersOpen: false, // ...and the filters dialogue
     });
+    let body={id:"5b912c3f272a825d807bd24f",data:newEmotionPreview}
+    console.log(await patchFetchData('/updateusercolor',body));
   };
 
   // Function for when the user decides not to save the previewed emotion
