@@ -24,6 +24,10 @@ class WordCloud2 extends React.Component {
     );
   }
 
+  componentDidUpdate() {
+          this.props.returnFunction();
+  }
+
   // What happens when you click a word
   onWordClick = () => {
     console.log('helluuu');

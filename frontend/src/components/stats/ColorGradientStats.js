@@ -21,7 +21,6 @@ class ColorGradientStats extends React.Component {
       }
     );
   }
-
   setupGradient = async () => {
     const { emotions } = this.state;
     // const now = new Date();
