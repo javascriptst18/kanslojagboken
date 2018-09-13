@@ -9,10 +9,11 @@ class WordCloud2 extends React.Component {
     emotionsHighestValue: '',
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    const { freqData } = this.props;
     this.setState(
       {
-        emotions: this.props.freqData,
+        emotions: freqData,
       },
       () => {
         const { emotions } = this.state;
@@ -21,11 +22,6 @@ class WordCloud2 extends React.Component {
         this.setState({ emotionsHighestValue: maxValue });
       }
     );
-  }
-
-  componentDidUpdate() {
-    const { returnFunction } = this.props;
-    returnFunction(true);
   }
 
   // What happens when you click a word

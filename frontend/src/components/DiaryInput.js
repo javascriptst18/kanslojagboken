@@ -36,19 +36,15 @@ class DiaryInput extends React.Component {
     return (
       <div className="diary-input-wrapper">
         <div className="diary-input-container">
-          <span>Vill du tillägga något?</span>
-          <label htmlFor="diary-input">Enter a journal post</label>
-          <textarea style={{height:"100%"}}className="diary-input"
+          <span>Vill du skriva en anteckning?</span>
+            <label htmlFor="diary-input">Skriv en anteckning</label>
+            <textarea style={{height:"100%"}}className="diary-input"
               name="diary-input"
               id="diary-input"
               type="text"
-              placeholder="Skriv här"
+              placeholder="Din anteckning..."
               onChange={this.onChange}
               value={diary}>
-            
-            
-              
-           
           </textarea>
         </div>
         <NextButton onClick={this.saveDiary} />

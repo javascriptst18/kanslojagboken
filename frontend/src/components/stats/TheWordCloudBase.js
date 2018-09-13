@@ -68,10 +68,7 @@ class WordCloud extends Component {
           .append('text')
           .style('font-size', (d) => `${d.size}%`)
           .style('font-family', font)
-          .style('fill', (d) => {
-            console.log('d: ', d);
-            return `${d.color}`;
-          })
+          .style('fill', (d) => `${d.color}`)
           .style('text-shadow', '1px 1px 0px rgba(0, 0, 0, 0.3)')
           .attr('text-anchor', 'middle')
           .attr(

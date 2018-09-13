@@ -254,7 +254,7 @@ console.log(color);
               {pickedByUser.length ?
               (<NextButton onClick={this.onSendDailyData} />)
               :
-              (<NextButton  color={color}/>)
+              (<NextButton color={color}/>)
             }
               
             </div>
