@@ -9,10 +9,11 @@ class WordCloud2 extends React.Component {
     emotionsHighestValue: '',
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    const { freqData } = this.props;
     this.setState(
       {
-        emotions: this.props.freqData,
+        emotions: freqData,
       },
       () => {
         const { emotions } = this.state;

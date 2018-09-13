@@ -57,7 +57,11 @@ class StatsScreen extends PureComponent {
           </div>
         )}
         {colorGradientOpen && (
-          <ColorGradientStats key="colorGradient" emotions={emotions} />
+          <ColorGradientStats
+            key="colorGradient"
+            emotions={emotions}
+            freqData={freqData}
+          />
         )}
       </div>
     );

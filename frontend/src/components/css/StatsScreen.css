@@ -15,7 +15,7 @@
 }
 
 .stats-screen .button-container {
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 
 .stats-screen .button-container button {
@@ -51,11 +51,11 @@
 
 .word-cloud-wrapper {
   background-color: rgb(254, 255, 255, 0.8);
-  border-radius: 30px;
+  border-radius: 5px;
   font-size: 100px;
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 12px;
   overflow: hidden;
 }
