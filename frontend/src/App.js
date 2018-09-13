@@ -5,6 +5,7 @@ import './App.css';
 import SplashScreen from './components/SplashScreen';
 import StartScreen from './components/StartScreen';
 import StatsScreen from './components/StatsScreen';
+import Diary from './components/DiaryInput'
 import CreateEmotions from './components/functions/CreateEmotions';
 import { getFetch } from './components/functions/fetchFunctions';
 
@@ -14,6 +15,7 @@ class App extends React.Component {
     splash: true,
     startScreen: false,
     statsScreen: false,
+    diary:false,
     hello: '',
     firstVisitToday: true,
     userData: '',
@@ -61,33 +63,42 @@ class App extends React.Component {
   }
 
   toggleMenu = (e) => {
+    
     if(e){
       if (e.target.dataset.menuitem === 'start') {
         this.setState({
           startScreen: true,
           statsScreen: false,
+          dairy:false
         });
-      }else{
-        if (e.target.dataset.menuitem === 'stats') {
+      }else if (e.target.dataset.menuitem === 'stats') {
           this.setState({
             startScreen: false,
             statsScreen: true,
+            dairy:false,
           }); 
-      }
-    } 
-  }else {
+      
+    } else if(e.target.name==="moveOn"){
       this.setState({
         startScreen: false,
-        statsScreen: true,
+        statsScreen: false,
+        diary:true
       });
     }
-  };
-
+  }else{
+    this.setState({
+      startScreen: false,
+      statsScreen: true,
+      diary:false
+    });
+  }
+  }
   render() {
     const {
       splash,
       startScreen,
       statsScreen,
+      diary,
       emotions,
       userData,
       hello,
@@ -104,7 +115,15 @@ class App extends React.Component {
           </div>
         </div>
       );
-    } else {
+    } else if(diary){
+      whatToRender = (
+      <div className="page-wrapper">
+          <div className="App">
+            <Diary key="diary" toggleMenu={this.toggleMenu}/>
+          </div>
+        </div>
+      )
+    }else {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">

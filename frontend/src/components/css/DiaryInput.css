@@ -1,10 +1,10 @@
 /* Is gonna be as wide as the welcome-phrase-box when placed in div className="App" later */
 
 .diary-input-container {
-  width: 550px;
-  max-width: 100%;
-  height: 200px;
-  background-color: rgb(254, 255, 255, 0.8);
+  width: 90%;
+  max-width: 550px;
+  height: 400px;
+  background-color: rgb(254, 255, 255, 0);
   padding: 20px;
   margin: 0 auto 30px auto;
   border: 1px solid #ddd;
@@ -15,7 +15,8 @@
 }
 
 .diary-input {
-  width: 500px;
+  width: 100%;
+  height: 100%;
   padding: 20px;
   border: none;
 }
