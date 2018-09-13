@@ -10,6 +10,7 @@
     "react/jsx-filename-extension": 0,
     "no-console": "off",
     "linebreak-style": "off",
+    "max-len": ["error", { "code": 120 }]
     "no-param-reassign": [
       2,
       {

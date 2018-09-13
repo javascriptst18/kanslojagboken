@@ -48,6 +48,13 @@ class StartScreen extends React.Component {
     this.setState({ emotions });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevProps.emotions!==this.props.emotions){
+      const { emotions } = this.props;
+    this.setState({ emotions });
+    }
+  }
+
   // Function for sorting the list of emotions when an emotion is selected/deselected (coming from the EmotionButton component)
   handleChecked = (selected, incomingName) => {
     const { pickedByUser, emotions } = this.state;
@@ -167,6 +174,7 @@ class StartScreen extends React.Component {
     if (response === 'error') {
       response = await postFetchData('/updateuserdata', body);
     }
+    this.props.toggleMenu();
   };
 
   render() {
@@ -180,9 +188,13 @@ class StartScreen extends React.Component {
       filtersOpen,
       filterByColor,
     } = this.state;
-
+    let color="";
     const { randomHelloPhrase } = this.props;
-
+    console.log(pickedByUser);
+    if(!pickedByUser.length){
+      color={backgroundColor:"#ccc", animationDuration:"0s"};
+    }
+console.log(color);
     return (
       <div className="start-screen">
         <div className="picked-emotions">
@@ -238,7 +250,12 @@ class StartScreen extends React.Component {
                 <i className="fas fa-plus" />
                 <span>Skapa ny</span>
               </button>
-              <NextButton onClick={this.onSendDailyData} />
+              {pickedByUser.length ?
+              (<NextButton onClick={this.onSendDailyData} />)
+              :
+              (<NextButton  color={color}/>)
+            }
+              
             </div>
           </React.Fragment>
         )}

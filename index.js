@@ -204,9 +204,8 @@ app.post("/newuser", async (req, res, err) => {
 });
 
 //PATCH update userdata, req.body.id as identifier, req.body.data as new data
-
   app.patch("/updateuserdata", async (req, res, errors) => {
-    let date = await new Date(2019,01,01);
+    let date = await new Date();
     date.setHours(0, 0, 0, 0);
 
     MongoClient.connect(
@@ -229,10 +228,11 @@ app.post("/newuser", async (req, res, err) => {
   });
 
 
+
   app.post("/updateuserdata", async (req, res, err) => {
     
     let incoming = req.body.data;
-    let date = await new Date(2019,01,01);
+    let date = await new Date();
     date.setHours(0, 0, 0, 0);
     let objEmotionData = { date: date, emotions: incoming };
 
@@ -280,7 +280,7 @@ app.get('/posttestdata', async (req, res, error) => {
   let random = Math.floor(Math.random()*30)+1;
   let randomM = Math.floor(Math.random()*11);
   let randomY = 2018 //Math.floor(Math.random()*3)+2016;
-  let emotionArray = ["Arg","Exhalterad","Glad","Trevlig","Social","Trött","Kaffesugen","Nedstämd","Harmonisk","Kärleksfylld","Orolig","Stressad","Sprallig","JavaScriptig","Intelligent","Nyfiken","Rädd","Snygg","Äcklig"]
+  let emotionArray = ["Arg","Exalterad","Glad","Trevlig","Social","Trött","Kaffesugen","Nedstämd","Harmonisk","Kärleksfylld","Orolig","Stressad","Sprallig","JavaScriptig","Intelligent","Nyfiken","Rädd","Snygg","Äcklig","Harmonisk","Kärleksfylld","Sprallig","JavaScriptig","Exalterad","Harmonisk"]
   let emotion = [];
   let randomIteration = (Math.floor(Math.random()*5)+1);
   for(let i = 0; i<randomIteration; i++){
