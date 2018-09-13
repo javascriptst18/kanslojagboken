@@ -8,9 +8,36 @@
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  padding: 12px;
+  padding: 0 20px;
   overflow: hidden;
-  flex-wrap: wrap;
+}
+
+.color-gradient-container button {
+  margin: 20px 0;
+}
+
+.color-gradient-container button.current-color {
+  height: 120px !important;
+  border-radius: 5px;
+  margin: 0;
+}
+
+.color-gradient-container button {
+  border: none;
+}
+
+.color-gradient-container button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.color-gradient-data {
+  height: 0;
+  overflow: hidden;
+}
+
+.color-gradient-data.selected {
+  height: auto;
 }
 
 .gradient-details-container {
@@ -21,13 +48,27 @@
   -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  padding: 12px;
+  padding: 20px;
   overflow: hidden;
   text-align: left;
 }
 
 .gradient-details-container p {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.gradient-details-container ul {
+  padding-left: 40px;
+}
+
+.gradient-details-container p,
+.gradient-details-container ul {
   font-size: 1.4rem;
+}
+
+.gradient-details-container ul em {
+  font-size: 1rem;
 }
 
 .gradient-details-container span {
@@ -44,6 +85,13 @@
   font-size: 3.4rem !important;
   color: #feffff;
   padding: 0 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.gradient-details-container h2.initial {
+  font-size: 1.8rem !important;
+  color: #222;
+  text-shadow: none;
 }
 
 .gradient-headline-red {

@@ -37,15 +37,15 @@ class DiaryInput extends React.Component {
     return (
       <div className="diary-input-wrapper">
         <div className="diary-input-container">
-          <span>Vill du tillägga något?</span>
+          <span>Vill du skriva en anteckning?</span>
           <form>
-            <label htmlFor="diary-input">Enter a journal post</label>
+            <label htmlFor="diary-input">Skriv en anteckning</label>
             <input
               className="diary-input"
               name="diary-input"
               id="diary-input"
               type="text"
-              placeholder="Skriv här"
+              placeholder="Din anteckning..."
               onChange={this.onChange}
               value={diary}
             />

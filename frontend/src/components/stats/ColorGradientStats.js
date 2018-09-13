@@ -1,11 +1,14 @@
 import React from 'react';
-import { getFetch } from '../functions/fetchFunctions';
+// import { getFetch } from '../functions/fetchFunctions';
 import '../css/ColorGradientStats.css';
+import { select } from 'd3-selection';
+import ColorGradientDetails from './ColorGradientDetails';
 
 class ColorGradientStats extends React.Component {
   state = {
     emotions: [],
     colorStops: '',
+    selectedColor: 'initial',
   };
 
   componentDidMount() {
@@ -107,6 +110,10 @@ class ColorGradientStats extends React.Component {
     });
   };
 
+  handleColorClick = (color) => {
+    this.setState({ selectedColor: color });
+  };
+
   render() {
     const { colorStops } = this.state;
     const orderedColorArray = [];
@@ -186,39 +193,44 @@ class ColorGradientStats extends React.Component {
     //   height: '40px',
     //   display: 'block',
     // };
+    const { selectedColor } = this.state;
     const arrayWithoutEmptyItems = orderedColorArray.filter(Boolean);
     const flexboxItems = arrayWithoutEmptyItems.map((item) => (
-      <div
-        className={item.color}
+      <button
+        className={`${item.color}${
+          selectedColor === item.color ? ' current-color' : ''
+        }`}
         style={{
           width: `${item.percentage}%`,
           height: '100px',
         }}
+        onClick={() => {
+          this.handleColorClick(item.color);
+        }}
       />
     ));
     const flexBoxDetails = arrayWithoutEmptyItems.map((item) => (
-      <div className="color-gradient-data" data-gradientcolor={item.color}>
-        <h2 className={`gradient-headline-${item.color}`}>
-          {`${Math.round(item.percentage)}%`}
-        </h2>
-        <p>
-          <strong>{Math.round(item.percentage)}% av orden</strong> du valt har
-          haft färgen <span className={item.color}>{item.name}</span>. Här under
-          ser du vilka ord du valt och hur många gånger de förekommer:
-                        </p>
-        <ul>
-          {item.words.map((wordItem) => (
-            <li>
-              {wordItem.word} ({`${wordItem.usedNumberOfTimes}x`})
-                                    </li>
-          ))}
-        </ul>
-      </div>
+      <ColorGradientDetails
+        key={item.color}
+        item={item}
+        selectedColor={selectedColor}
+      />
     ));
     return (
       <React.Fragment>
         <div className="color-gradient-container">{flexboxItems}</div>
-        <div className="gradient-details-container">{flexBoxDetails}</div>
+        <div className="gradient-details-container">
+          <div
+            key="initial"
+            className={`color-gradient-data${
+              selectedColor === 'initial' ? ' selected' : ''
+            }`}
+          >
+            <h2 className="initial">Välj färg</h2>
+            <p>Klicka på en färg här ovan för att utforska dina känslor.</p>
+          </div>
+          {flexBoxDetails}
+        </div>
       </React.Fragment>
     );
   }
