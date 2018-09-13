@@ -110,7 +110,7 @@ class StartScreen extends React.Component {
       filtersOpen: false, // ...and the filters dialogue
     });
     let body={id:"5b912c3f272a825d807bd24f",data:newEmotionPreview}
-    console.log(await patchFetchData('/updateusercolor',body));
+    patchFetchData('/updateusercolor',body);
   };
 
   // Function for when the user decides not to save the previewed emotion
@@ -164,6 +164,7 @@ class StartScreen extends React.Component {
   };
 
   onSendDailyData = async (e) => {
+    
     this.props.toggleMenu(e);
     const { pickedByUser } = this.state;
     const data = [...pickedByUser];
@@ -177,6 +178,7 @@ class StartScreen extends React.Component {
     if (response === 'error') {
       response = await postFetchData('/updateuserdata', body);
     }
+    this.props.updateFreq()
     
   };
 

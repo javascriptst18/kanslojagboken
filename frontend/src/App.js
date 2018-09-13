@@ -56,6 +56,10 @@ class App extends React.Component {
     
     const randomHello = await getFetch('./hello');
     this.setState({ hello: randomHello[0] });
+   this.updateFreqData();
+    
+  }
+  updateFreqData = async ()=> {
     const now = new Date();
     const year = now.getFullYear().toString();
   
@@ -66,13 +70,10 @@ class App extends React.Component {
    const day = now.getDate().toString();
    const startDate = year +"0" + (month-1) + day;
    const endDate = year + month + day;
-   console.log(startDate + " " + endDate);
-    
     const freqData = await getFetch(
-    `/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=${startDate}&dateend=${endDate}`
-    );
-    this.setState({ freqData });
-    
+      `/userdatabydatewithcolor?id=5b912c3f272a825d807bd24f&datestart=${startDate}&dateend=${endDate}`
+      );
+      this.setState({ freqData });
   }
 
   toggleMenu = (e) => {
@@ -124,7 +125,7 @@ class App extends React.Component {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <StartScreen key="startScreen" emotions={emotions} name={userData.name} randomHelloPhrase={hello} toggleMenu={this.toggleMenu}/>
+            <StartScreen key="startScreen" emotions={emotions} name={userData.name} randomHelloPhrase={hello} toggleMenu={this.toggleMenu} updateFreq={this.updateFreqData}/>
           </div>
         </div>
       );
@@ -140,7 +141,7 @@ class App extends React.Component {
       whatToRender = (
         <div className="page-wrapper">
           <div className="App">
-            <StatsScreen key="statsScreen" emotions={emotions} freqData={freqData} />
+            <StatsScreen key="statsScreen" emotions={emotions} freqData={freqData}  />
           </div>
         </div>
       );
