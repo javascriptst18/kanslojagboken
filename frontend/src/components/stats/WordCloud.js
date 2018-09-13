@@ -103,7 +103,7 @@ class WordCloud2 extends React.Component {
     // Calculating the percentage font size of the words based on frequency
     const fontSizeMapper = (word) => (word.value / emotionsHighestValue) * 100;
     // OnWordClick is applied to every word
-    const onClick = (word) => this.onWordClick(word);
+    /*const onClick = (word) => this.onWordClick(word); */
     return (
       <WordCloud
         width={510}
