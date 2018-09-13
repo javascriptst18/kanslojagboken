@@ -3,8 +3,7 @@
 .diary-input-container {
   width: 90%;
   max-width: 550px;
-  height: 400px;
-  background-color: rgb(254, 255, 255, 0);
+  background-color: rgb(254, 255, 255, 0.8);
   padding: 20px;
   margin: 0 auto 30px auto;
   border: 1px solid #ddd;
@@ -15,12 +14,23 @@
 }
 
 .diary-input {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  border: none;
+  display: block;
+  margin: 8px auto 20px auto;
+  max-width: 100%;
+  width: 500px;
+  padding: 12px;
+  font-size: 1.2rem;
+  border: 1px solid #ddd;
+  background-color: #feffff;
+  border-radius: 5px;
 }
 
-.diary-input-container label {
-  display: none;
+.diary-input:focus {
+  border: 1px solid #7daf95;
+}
+
+.diary-input-wrapper label {
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 8px;
 }
