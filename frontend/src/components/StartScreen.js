@@ -161,7 +161,8 @@ class StartScreen extends React.Component {
     }
   };
 
-  onSendDailyData = async () => {
+  onSendDailyData = async (e) => {
+    this.props.toggleMenu(e);
     const { pickedByUser } = this.state;
     const data = [...pickedByUser];
 
@@ -174,7 +175,7 @@ class StartScreen extends React.Component {
     if (response === 'error') {
       response = await postFetchData('/updateuserdata', body);
     }
-    this.props.toggleMenu();
+    
   };
 
   render() {

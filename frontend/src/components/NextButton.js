@@ -16,7 +16,7 @@ class NextButton extends React.Component{
         <i className="fa fa-arrow-right next-button-arrow" aria-hidden="true" />
       </button>)
         :
-        (<button className="next-button" type="submit" onClick={onClick}>
+        (<button name="moveOn" className="next-button" type="submit" onClick={onClick}>
         Gå vidare
         <i className="fa fa-arrow-right next-button-arrow" aria-hidden="true" />
       </button>)
