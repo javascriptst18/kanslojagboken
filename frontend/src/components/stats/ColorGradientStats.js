@@ -77,10 +77,12 @@ class ColorGradientStats extends React.Component {
     let totalCount = 0;
     for (let i = 0; i < Object.keys(result).length; i += 1) {
       const arrayFromObject = Object.entries(result)[i];
-      // console.log(arrayFromObject);
+      
       // const whichColor = emotions.filter(
       //   (item) => item.name === arrayFromObject[0]
       // );
+      
+
       const newCount =
         colorCount[arrayFromObject[1][1]].count + arrayFromObject[1][0];
       colorCount[arrayFromObject[1][1]].count = newCount;
