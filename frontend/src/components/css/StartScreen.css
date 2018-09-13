@@ -33,9 +33,10 @@
 
 .start-screen .add-emotion-button-wrapper {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin-top: 60px;
 }
 .add-emotion-button-wrapper {
   width: 90%;
@@ -55,7 +56,6 @@
   font-weight: 700;
   border: 5px solid #feffff;
   border-radius: 20px;
-  margin-top: 40px;
   -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.1);

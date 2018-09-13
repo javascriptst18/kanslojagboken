@@ -70,7 +70,7 @@ nav.top-menu button.current-page {
   max-width: 96%;
   margin: 0 auto;
   text-align: center;
-  min-height: 100vh;
+  padding-bottom: 60px;
 }
 
 h1,
