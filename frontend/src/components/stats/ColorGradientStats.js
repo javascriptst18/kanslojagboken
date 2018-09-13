@@ -1,7 +1,6 @@
 import React from 'react';
 // import { getFetch } from '../functions/fetchFunctions';
 import '../css/ColorGradientStats.css';
-import { select } from 'd3-selection';
 import ColorGradientDetails from './ColorGradientDetails';
 
 class ColorGradientStats extends React.Component {
@@ -164,6 +163,8 @@ class ColorGradientStats extends React.Component {
               colorNumber = 7;
               colorName = 'Rosa';
               break;
+            
+            default: break;
           }
           orderedColorArray[colorNumber] = {
             color: entries[0][0],
