@@ -119,7 +119,6 @@ class ColorGradientStats extends React.Component {
     if (colorStops.length > 0) {
       for (let i = 0; i < colorStops.length; i += 1) {
         const entries = Object.entries(colorStops[i]);
-        console.log(entries);
         if (entries[0][1].percentages !== 0) {
           let colorName = '';
           let colorNumber = '';

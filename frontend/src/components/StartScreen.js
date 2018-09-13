@@ -191,11 +191,9 @@ class StartScreen extends React.Component {
     } = this.state;
     let color="";
     const { randomHelloPhrase } = this.props;
-    console.log(pickedByUser);
     if(!pickedByUser.length){
       color={backgroundColor:"#ccc", animationDuration:"0s"};
     }
-console.log(color);
     return (
       <div className="start-screen">
         <div className="picked-emotions">
