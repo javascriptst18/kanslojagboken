@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = 4000;
 const user = "dev_academy";
-const password = "Xqj2jdzT1sRfGyEY";
+const password = "";
 
 const uri = `mongodb+srv://dev_academy:${password}@kanslodagbok-g1obv.mongodb.net/users?retryWrites=true`;
 
